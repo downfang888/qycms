@@ -1,0 +1,189 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=0">
+<meta name="renderer" content="webkit">
+<meta http-equiv="Cache-Control" content="no-siteapp"/>
+<!--首页seo标题-->
+<title>{eyou:global name='web_title' /}</title>
+<!--首页seo描述-->
+<meta name="description" content="{eyou:global name='web_description' /}" />
+<!--首页seo关键词-->
+<meta name="keywords" content="{eyou:global name='web_keywords' /}" />
+<!--网站地址栏图标-->
+<link href="{eyou:global name='web_cmspath' /}/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+{eyou:static file="skin/css/amazeui.min.css" /}
+{eyou:static file="skin/css/app.css" /}
+{eyou:static file="skin/css/skitter.css" /}
+<!--[if lt IE 9]>
+    <div class="notsupport">
+        <h1>:( 非常遗憾</h1>
+        <h2>您的浏览器版本太低，请升级您的浏览器</h2>
+    </div>
+    <![endif]--> 
+{eyou:static file="skin/js/jquery.min.js" /} 
+{eyou:static file="skin/js/amazeui.min.js" /}
+{eyou:static file="skin/js/app.js" /}
+{eyou:static file="skin/js/jquery.easing.1.3.js" /}
+{eyou:static file="skin/js/jquery.skitter.js" /}
+{eyou:static file="skin/js/jquery.limarquee.js" /} 
+</head>
+
+<body>
+<!--网站公用头部——开始-->
+{eyou:include file="header.htm" /}
+<!--网站公用头部——结束-->
+<!--广告首页大幻灯——开始-->
+<div class="banner">
+  <div class="skitter" id="banner">
+    <ul>
+      {eyou:adv pid='1'}
+      <li><a href="{$field.links}" {$field.target}><img src="{$field.litpic}" alt="{$field.title}" class="random" /></a></li>
+      {/eyou:adv}
+    </ul>
+  </div>
+</div>
+
+<!--广告首页大幻灯——结束-->
+<!--关于我们——开始-->
+<div class="p20"></div>
+{eyou:channelartlist typeid='1'}
+<div class="width">
+ 
+  <div class="home_about">
+    <div class="left">
+      <img src="{eyou:adv pid='5' row="1"}{$field.litpic}{/eyou:adv}" width="410" height="260">
+    </div>
+    <div class="right">
+     <!--公司简介——开始-->
+      <h2>{eyou:global name='web_name' /}</h2>
+      <p>{eyou:type typeid='8' addtable='single_content'}{$field.content|html_msubstr=###,0,275}...{/eyou:type}</p>
+    
+      <span class="more"><a href="{eyou:field name='typeurl' /}">查看更多<i class="fa fa-angle-right"></i></a></span>
+      <!--公司简介——结束-->
+    </div>
+  </div>
+</div>
+{/eyou:channelartlist}
+<div class="p20"></div>
+<!--关于我们——结束-->
+<!--产品中心——开始-->
+{eyou:channelartlist typeid='3'}
+<div class="bg_gray">
+  <div class="width">
+   <div class="p10"></div>
+    <div class="home_title">
+	  <h2>{eyou:field name='typename' /}</h2>
+	  <div class="border">{eyou:field name='englist_name' /}</div>
+    </div>
+    <!--产品中心子栏目——开始-->
+    <div class="home_nav mt20">
+      <ul>
+        {eyou:channel type="son" row='3'}
+        <li {eyou:eq name='$i' value='1'}class="hover"{/eyou:eq} id="one{$i}" onMouseOver="setTab('one',{$i},3)"><a href="{$field.typeurl}" title="{$field.typename}">{$field.typename}</a></li>
+        {/eyou:channel}
+      </ul>
+      <div class="clear"></div>
+    </div>
+    <!--产品中心子栏目——结束-->
+    <div class="home_pro">
+     {eyou:channel type="son" row='3'}
+      <ul id="con_one_{$i}" {eyou:eq name='$i' value='1'}{else /}class="dis"{/eyou:eq}>
+       {eyou:arclist typeid='$field.typeid' row='8' titlelen='30'}
+        <li><a href="{$field.arcurl}" title="{$field.title}">
+          <div><img src="{$field.litpic}" alt="{$field.title}" height="280"></div>
+          <p class="title">{$field.title}</p>
+          <p class="price"><span>点击数：{$field.click} </span>¥ {$field.users_price} </p>
+          </a></li>
+        {/eyou:arclist} 
+      </ul>
+      <div class="clear"></div>
+      {/eyou:channel}
+    </div>
+    <div class="home_more"> <span class="more"><a href="{eyou:field name='typeurl' /}">查看更多<i class="fa fa-angle-right"></i></a></span></div>
+  </div>
+</div>
+{/eyou:channelartlist}
+<!--产品中心——结束-->
+<!--新闻动态——开始-->
+{eyou:channelartlist typeid='2'}
+<div class="width">
+  <div class="p10"></div>
+    <div class="home_title">
+	  <h2>{eyou:field name='typename' /}</h2>
+	  <div class="border">{eyou:field name='englist_name' /}</div>
+    </div>
+  <div class="home_news">
+  
+    <ul class="home_news_list">
+     {eyou:arclist row='6' titlelen='30'}
+		<li>
+          <div class="date">
+          	<span class="dateline">{$field.add_time|MyDate='d',###}</span>
+          	<em>{$field.add_time|MyDate='Y-m',###}</em>
+          </div>
+          <div class="txt">
+          	<a href="{$field.arcurl}" title="{$field.title}">{$field.title}</a>{$field.seo_description|html_msubstr=###,0,60,true}
+          </div>
+		</li>
+     {/eyou:arclist} 
+    </ul>
+    <div class="clear"></div>
+    <div class="home_more"> <span class="more"><a href="{eyou:field name='typeurl' /}">查看更多<i class="fa fa-angle-right"></i></a></span></div>
+  </div>
+</div>
+{/eyou:channelartlist}
+<!--新闻动态——结束-->
+<!--客户案例——开始-->
+{eyou:channelartlist typeid='4'}
+<div class="bg_gray">
+  <div class="width">
+    <div class="p10"></div>
+    <div class="home_title">
+	  <h2>{eyou:field name='typename' /}</h2>
+	  <div class="border">{eyou:field name='englist_name' /}</div>
+	  
+    </div>
+    <div class="list_pic">
+      <ul>
+       {eyou:arclist row='4' titlelen='30'}
+        <li><a href="{$field.arcurl}" title="{$field.title}">
+          <div><img src="{$field.litpic}" alt="{$field.title}" height="200"></div>
+          <p class="title">{$field.title}</p>
+          </a></li>
+       {/eyou:arclist}   
+      </ul>
+      <div class="clear"></div>
+    </div>
+    <div class="home_more"> <span class="more"><a href="{eyou:field name='typeurl' /}">查看更多<i class="fa fa-angle-right"></i></a></span></div>
+  </div>
+</div>
+{/eyou:channelartlist}
+<!--客户案例——结束-->
+
+<!--友情链接——开始-->
+<div class="bg_link">
+  <div class="width link"> 
+    <div class="link_list" id="link"> 友情链接：
+    {eyou:flink titlelen='45' type='text'}
+    <a href="{$field.url}" {$field.target}>{$field.title} </a>
+    {/eyou:flink}
+    </div>
+    <div class="clear"></div>
+  </div>
+</div>
+<!--友情链接——结束-->
+<!--网站公用底部——开始-->
+{eyou:include file="footer.htm" /}
+<!--网站公用底部——结束-->
+<script>
+$(function(){
+	//Banner切换
+	$('#banner').skitter({dots:true,interval:5000});
+})
+</script>
+
+</body>
+</html>

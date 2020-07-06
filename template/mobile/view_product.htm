@@ -1,0 +1,158 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="renderer" content="webkit">
+<meta http-equiv="Cache-Control" content="no-siteapp"/>
+<!--页面seo标题-->
+<title>{$eyou.field.seo_title}</title>
+<!--页面seo描述-->
+<meta name="description" content="{$eyou.field.seo_description}" />
+<!--页面seo关键词-->
+<meta name="keywords" content="{$eyou.field.seo_keywords}" />
+<!--网站地址栏图标-->
+<link href="{eyou:global name='web_cmspath' /}/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+{eyou:static file="skin/css/amazeui.min.css" /}
+{eyou:static file="skin/css/app.css" /}
+{eyou:static file="skin/css/swiper.min.css" /}
+{eyou:static file="skin/js/jquery.min.js" /}
+{eyou:static file="skin/js/amazeui.min.js" /}
+{eyou:static file="skin/js/app.js" /}
+</head>
+
+<body>
+<!--网站公用头部——开始-->
+{eyou:include file="header.htm" /}
+<!--网站公用头部——结束-->
+<article>
+<section>
+  <div class="pro_show">
+    <div class="swiper-container">
+      <div class="swiper-wrapper"> 
+        <!--图集循环调用——开始-->
+        {eyou:volist name="$eyou.field.image_list"}
+        <div class="swiper-slide"><img src="{$field.image_url}" alt="{$eyou.field.title}" /></div>
+        {/eyou:volist} 
+        <!--图集循环调用——结束-->
+        </div>
+      <div class="swiper-pagination"></div>
+    </div>
+    <!--产品标题-->
+    <h1>{$eyou.field.title}</h1>
+    <!--产品描述-->
+    <div class="intro"> {$eyou.field.seo_description}</div>
+    
+    
+    <!--产品参数调用——开始-->
+    <ul class="attribute">
+      {eyou:attribute type='auto'}
+      <li><em>{$attr.name}：</em>{$attr.value} </li>
+      {/eyou:attribute}
+    </ul>
+    <!--产品参数调用——结束-->
+    {eyou:sppurchase id='field'}
+    <div class="price">价格：<span>{$field.users_price}</span><em>元</em></div>
+    {/eyou:sppurchase}
+  </div>
+</section>
+<!--商城购买行为调用——开始-->
+{eyou:sppurchase id='field' currentstyle='btn-danger'} 
+
+<section> 
+ <!-- 规格 标签开始 --> 
+    <div class="ey-spec"> 
+    {eyou:volist name="$field.ReturnData" id='field2'} 
+        <div class="row m-t-15"> 
+            <label class="form-control-label col-sm-7">{$field2.spec_name}</label> 
+            <div class="col-sm-10"> 
+            {eyou:volist name="$field2.spec_value" id='field3'} 
+                <a href="JavaScript:void(0);" {$field3.SpecData} class="btn btn-default btn-selected {$field3.SpecClass}">{$field3.spec_value}</a> 
+            {/eyou:volist} 
+            </div> 
+        </div> 
+    {/eyou:volist} 
+    </div> 
+    <!-- 规格 标签结束 --> 
+  <div class="ey-number">
+    <label>数量</label>
+    <div class="btn-input">
+      <button class="layui-btn" {$field.ReduceQuantity}>-</button>
+      <input type="text" class="layui-input" {$field.UpdateQuantity}>
+      <button class="layui-btn" {$field.IncreaseQuantity}>+</button>
+    </div>
+  </div>
+  <!-- 库存量 标签开始 --> 
+    <span {$field.stock_show}>库存量：{$field.stock_count} 件</span> 
+    <!-- 库存量 标签结束 --> 
+  <div class="ey-buyaction"> 
+   <a class="ey-joinin" href="JavaScript:void(0);" {$field.ShopAddCart}>加入购物车</a> 
+   <a class="ey-joinbuy" href="JavaScript:void(0);" {$field.BuyNow}>立即购买</a> 
+  </div>
+</section>
+    {$field.hidden} 
+{/eyou:sppurchase} 
+<!--商城购买行为调用——结束-->
+<section>
+  <div class="subject"> <b>产品介绍</b> </div>
+  <div class="clear"></div>
+  <div class="news_show">
+    <div class="intro">
+      <!--产品详情-->
+      {$eyou.field.content} 
+      <div class="clear"></div>
+    </div>
+    <!--上下篇——开始-->
+      <div class="prenext"> 
+        <!--上一篇--> 
+        {eyou:prenext get='pre'} <a href="{$field.arcurl}" title="{$field.title}" class="pre"> {eyou:lang name='sys11' /}</span> </a> {eyou:else /} <a class="pre">{eyou:lang name='sys10' /}</a> {/eyou:prenext} 
+        <!--下一篇--> 
+        {eyou:prenext get='next'} <a href="{$field.arcurl}" title="{$field.title}" class="next"> {eyou:lang name='sys12' /} </span> </a> {eyou:else /} <a class="next">{eyou:lang name='sys10' /}</a> {/eyou:prenext} 
+      </div>
+      <!--上下篇——结束-->
+      {eyou:notempty name='$eyou.field.tags'}
+      <hr class="am-margin-top-lg">
+      <!--tag标签——开始-->
+      <div class="tags">标签：
+        {eyou:tag sort='now' getall='0' row='100'} <a href="{$field.link}"  {$field.target}>{$field.tag}</a> {/eyou:tag} 
+      </div>
+      <!--tag标签——结束--> 
+      {/eyou:notempty}
+    </div>
+  </div>
+</section>
+<section>
+<div class="subject"> <b>推荐产品</b> </div>
+<div class="clear"></div>
+<div class="home_pro">
+<ul>
+  {eyou:arclist flag='c' orderby='now' titlelen='30' row='5' typeid='3'}
+  <li><a href="{$field.arcurl}" title="{$field.title}">
+    <div><img src="{$field.litpic}" alt="{$field.title}"></div>
+    <p class="title">{$field.title}</p>
+    <p class="price"><span>点击数：{$field.click} </span>¥ {$field.users_price} </p>
+    </a></li>
+  {/eyou:arclist} 
+</ul>
+<div class="clear"></div>
+</section>
+</article>
+<!--网站公用底部——开始-->
+{eyou:include file="footer.htm" /}
+<!--网站公用底部——结束-->
+
+{eyou:static file="skin/js/swipe.js" /} 
+<script>
+    var swiper=new Swiper('.swiper-container',{
+        pagination:'.swiper-pagination',
+        paginationClickable:true,
+        spaceBetween:30,
+        centeredSlides:true,
+        autoplay:5000,
+        autoplayDisableOnInteraction:false,
+		loop:true
+    });
+    </script>
+</body>
+</html>

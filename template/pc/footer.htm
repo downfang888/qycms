@@ -1,0 +1,43 @@
+<div class="bg_footer">
+    	<div class="width footer">
+        	<div class="fl">
+            	<h1>{eyou:global name='web_name' /}</h1>
+                <h5></h5>
+                {eyou:searchform type='default'}
+				  <form method="get" action="{$field.action}">
+					{$field.hidden}
+                	<input type="text" name="keywords" placeholder="请输入关键字">
+					<input type="submit" value="搜索">
+                </form>
+				{/eyou:searchform} 
+            </div>
+            <div class="fr">
+            	{eyou:channel type="top" row="4" id="field"}
+                <div class="left">
+                    <ul>
+                        <h6>{$field.typename}</h6>
+                        {eyou:channel name="$field.children" row="100" id="field2"}
+						<li><a href="{$field2.typeurl}" title="{$field2.typename}">{$field2.typename}</a></li>
+						{/eyou:channel}
+                    </ul>
+                </div>
+                {/eyou:channel}
+            </div>
+            <div class="clear"></div>
+            <div class="copyright">
+                {eyou:global name='web_copyright' /}　{eyou:global name='web_recordnum' /} <a href="{eyou:global name='web_cmsurl' /}/sitemap.xml">Xml网站地图 </a>
+            </div>
+        </div>
+    </div>
+    <!-- 应用插件标签 start -->
+     {eyou:weapp type='default' /}
+    <!-- 应用插件标签 end -->
+    
+    
+    <!--[if lt IE 9]>
+    <div class="notsupport">
+        <h1>:( 非常遗憾</h1>
+        <h2>您的浏览器版本太低，请升级您的浏览器</h2>
+    </div>
+    <![endif]-->
+    

@@ -1,0 +1,23 @@
+<div class="sidebar-second ">
+    <ul>
+        <li class="sidebar-second-title">商城中心</li>
+        <li>
+            <a {if condition="'Statistics' == $Think.const.CONTROLLER_NAME"}class="active"{/if} href='{:url("Statistics/index")}'>数据统计</a>
+        </li>
+        <li>
+            <a {if condition="'Shop' == $Think.const.CONTROLLER_NAME and in_array($Think.const.ACTION_NAME, ['index', 'order_details'])"}class="active"{/if} href='{:url("Shop/index")}'>所有订单</a>
+        </li>
+        <li>
+            <a {if condition="'ShopProduct' == $Think.const.CONTROLLER_NAME and in_array($Think.const.ACTION_NAME, ['index', 'add', 'edit'])"}class="active"{/if} href='{:url("ShopProduct/index")}'>商品管理</a>
+        </li>
+        <li>
+            <a {if condition="'ShopProduct' == $Think.const.CONTROLLER_NAME and in_array($Think.const.ACTION_NAME, ['attrlist_index', 'attribute_index'])"}class="active"{/if} href='{:url("ShopProduct/attrlist_index")}'>商品参数</a>
+        </li>
+        <li>
+            <a {if condition="'Shop' == $Think.const.CONTROLLER_NAME and 'conf' == $Think.const.ACTION_NAME"}class="active"{/if} href='{:url("Shop/conf")}'>商城设置</a>
+        </li>
+        <li>
+            <a {if condition="'Member' == $Think.const.CONTROLLER_NAME"}class="active"{/if} href='{:url("Member/money_index")}'>财务明细</a>
+        </li>
+    </ul>
+</div>

@@ -1,0 +1,89 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=0">
+<meta name="renderer" content="webkit">
+<meta http-equiv="Cache-Control" content="no-siteapp"/>
+<!--页面seo标题-->
+<title>{$eyou.field.seo_title}</title>
+<!--页面seo描述-->
+<meta name="description" content="{$eyou.field.seo_description}" />
+<!--页面seo关键词-->
+<meta name="keywords" content="{$eyou.field.seo_keywords}" />
+<!--网站地址栏图标-->
+<link href="{eyou:global name='web_cmspath' /}/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+{eyou:static file="skin/css/amazeui.min.css" /}
+{eyou:static file="skin/css/app.css" /}
+{eyou:static file="skin/js/ueditor.config.js" /}
+{eyou:static file="skin/js/ueditor.all.min.js" /}
+<!--[if lt IE 9]>
+<div class="notsupport">
+	<h1>:( 非常遗憾</h1>
+	<h2>您的浏览器版本太低，请升级您的浏览器</h2>
+</div>
+<![endif]--> 
+{eyou:static file="skin/js/jquery.min.js" /}
+{eyou:static file="skin/js/amazeui.min.js" /}
+{eyou:static file="skin/js/app.js" /}
+{eyou:static file="skin/css/toastr.css" /}
+{eyou:static file="skin/js/dropzone.js" /}
+{eyou:static file="skin/js/toastr.min.js" /}
+{eyou:static file="skin/js/jquery.validator.min.js" /}
+</head>
+
+<body>
+<!--网站公用头部——开始-->
+{eyou:include file="header.htm" /}
+<!--网站公用头部——结束-->
+<!--网站公用自定义文件——开始-->
+{eyou:include file="banner.htm" /}
+<!--网站公用自定义文件——结束-->
+<div class="width inner_container">
+  <!--当前位置调用-->
+<ol class="am-breadcrumb">
+    <li><i class="am-icon-home"></i>{eyou:position style="" /}</li>  
+</ol>
+  {eyou:guestbookform type='default'}
+  <form method="POST" class="am-form am-form-horizontal form-add" {$field.formhidden} action="{$field.action}" onsubmit="{$field.submit}">
+    <div class="am-form-group">
+      <label class="am-u-sm-2 am-form-label">{$field.itemname_1}</label>
+      <div class="am-u-sm-10">
+        <input type="text" name="{$field.attr_1}" id="attr_1" size="50" value="" >
+        <span for="my_title" class="msg-box"></span> </div>
+    </div>
+    <div class="am-form-group">
+      <label class="am-u-sm-2 am-form-label">{$field.itemname_2}</label>
+      <div class="am-u-sm-10">
+        <input type="text" name="{$field.attr_2}" id="attr_2" size="50" maxlength="20" value="">
+        <span for="my_truename" class="msg-box"></span> </div>
+    </div>
+    <div class="am-form-group">
+      <label class="am-u-sm-2 am-form-label">{$field.itemname_3}</label>
+      <div class="am-u-sm-10">
+        <select name="{$field.attr_3}" id="attr_3" class="w420">
+          <option value="">{$field.itemname_3}</option>
+          {eyou:volist name='$field.options_3' id='vo'}
+          <option value="{$vo.value}">{$vo.value}</option>
+          {/eyou:volist}
+        </select>
+        <span for="my_sex" class="msg-box"></span> </div>
+    </div>
+    
+    
+    <div class="am-form-group">
+      <div class="am-u-sm-10 am-u-sm-offset-2">
+        <button type="submit" class="am-btn am-btn-primary am-radius">提交</button>
+      </div>
+    </div>
+  {$field.hidden}
+  </form>
+{/eyou:guestbookform}
+</div>
+<!--网站公用底部——开始-->
+{eyou:include file="footer.htm" /}
+<!--网站公用底部——结束-->
+
+</body>
+</html>

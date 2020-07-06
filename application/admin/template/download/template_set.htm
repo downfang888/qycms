@@ -1,0 +1,133 @@
+{include file="public/layout" /}
+<body style="background-color: rgb(255, 255, 255); overflow: auto; cursor: default; -moz-user-select: inherit; min-width:auto;">
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+<div class="page" style="min-width:auto;box-shadow:none;">
+    <div class="flexigrid">
+        <div class="hDiv">
+            <div class="hDivBox">
+                <table cellspacing="0" cellpadding="0" style="width: 100%">
+                    <thead>
+                    <tr>
+                        <th class="sign w10" axis="col0">
+                            <div class="tc"></div>
+                        </th>
+                        <th abbr="ac_id" axis="col4">
+                            <div class="">参数名称</div>
+                        </th>
+                        <th axis="col1" class="w80">
+                            <div class="tc">启用</div>
+                        </th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+        <div class="bDiv" style="height: auto;">
+            <div id="flexigrid" cellpadding="0" cellspacing="0" border="0">
+                <table style="width: 100%">
+                    <tbody>
+                    {empty name="list"}
+                        <tr>
+                            <td class="no-data" align="center" axis="col0" colspan="50">
+                                <i class="fa fa-exclamation-circle"></i>没有符合条件的记录
+                            </td>
+                        </tr>
+                    {else/}
+                        {foreach name="list" item="vo" key="k" }
+                        <tr>
+                            <td class="sign">
+                                <div class="w10 tc"></div>
+                            </td>
+                            <td style="width: 100%">
+                                <div style="">
+                                    <input type="text" data-id='{$vo.field_id}' id="{$vo.field_name}" data-name="{$vo.field_name}" onchange="UpFieldTitle(this)" value="{$vo.field_title}">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="w80 tc">
+                                    <label>
+                                        <input type="checkbox" data-id='{$vo.field_id}' data-title="{$vo.field_title}" data-name='{$vo.field_name}' {eq name='$vo.field_use' value='1'}checked{/eq} onclick="UpFieldUse(this);">
+                                    </label>
+                                </div>
+                            </td>
+                        </tr>
+                        {/foreach}
+                    {/empty}
+                    </tbody>
+                </table>
+            </div>
+            <div class="iDiv" style="display: none;"></div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+        // 表格行点击选中切换
+        $('#flexigrid > table>tbody >tr').click(function(){
+            $(this).toggleClass('trSelected');
+        });
+
+        // 点击刷新数据
+        $('.fa-refresh').click(function(){
+            location.href = location.href;
+        });
+    });
+
+    function UpFieldTitle(obj)
+    {
+        // 字段标题
+        var field_title = $(obj).val();
+        // 字段名称
+        var field_name  = $(obj).attr('data-name');
+        // 字段ID
+        var field_id    = $(obj).attr('data-id');
+        // 更改字段
+        parent.$('.title_'+field_name).html(field_title);
+        // 修改数据库中的信息
+        $.ajax({
+            url: "{:url('Download/template_set', ['_ajax'=>1])}",
+            data: {field_id:field_id,field_title:field_title},
+            type:'post',
+            dataType:'json',
+            success: function(res){
+                layer.msg(res.msg, {icon: 1, time:1000});
+            }
+        });
+    }
+
+    function UpFieldUse(obj)
+    {
+        // 字段名称
+        var field_name  = $(obj).attr('data-name');
+        // 字段标题
+        var field_title = $('#'+field_name).val();
+        // 字段ID
+        var field_id    = $(obj).attr('data-id');
+        // 字段是否使用
+        var field_use = '';
+
+        if ($(obj).is(':checked')) {
+            // 追加字段
+            var html = '<span class="ey_'+field_name+'"> <span class="title_'+field_name+'">'+field_title+'</span>：<input type="text" name="'+field_name+'[]" style="width: 7%;"> </span>';
+            parent.$('.template_div').append(html);
+            field_use = 1;
+        } else {
+            // 销毁字段
+            parent.$('.ey_'+field_name).remove();
+            field_use = 0;
+        }
+        // 修改数据库中的信息
+        $.ajax({
+            url: "{:url('Download/template_set', ['_ajax'=>1])}",
+            data: {field_id:field_id,field_use:field_use},
+            type:'post',
+            dataType:'json',
+            success: function(res){
+
+            }
+        });
+    }
+</script>
+
+{include file="public/footer" /}

@@ -1,0 +1,331 @@
+{include file="public/layout" /}
+<script src="__SKIN__/js/users_upgrade.js?v={$version}"></script>
+<script type="text/javascript" src="__PUBLIC__/plugins/colpick/js/colpick.js"></script>
+<link href="__PUBLIC__/plugins/colpick/css/colpick.css" rel="stylesheet" type="text/css"/>
+<body class="bodystyle" style="overflow-y: scroll; cursor: default; -moz-user-select: inherit;">
+<style type="text/css">
+#picker {
+    /*margin:0;*/
+    /*padding:0;*/
+    border:solid 1px #ccc;
+    width:70px;
+    height:20px;
+    border-right:40px solid green;
+    /*line-height:20px;*/
+} 
+</style>
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+<div class="page">
+    {include file="member/bar" /}
+    <div class="flexigrid">
+        <div class="mDiv">
+            <div class="ftitle">
+                <h3>功能配置</h3>
+                <h5></h5>
+            </div>
+            <form class="navbar-form form-inline" action="{:url('Member/level_index')}" method="get" onsubmit="layer_loading('正在处理');">
+                {$searchform.hidden|default=''}
+                <div class="sDiv">
+                    {include file="member/users_bar" /}
+                </div>
+            </form>
+        </div>
+        <form class="form-horizontal" id="postForm" action="{:url('Member/users_config')}" method="post">
+            <div class="hDiv">
+                <div class="hDivBox">
+                    <table cellspacing="0" cellpadding="0" style="width: 100%">
+                        <thead>
+                        <tr>
+                            <th class="sign w10" axis="col0">
+                                <div class="tc"></div>
+                            </th>
+                            <th abbr="article_title" axis="col3" class="w10">
+                                <div class="tc">注册设置</div>
+                            </th>
+                            <th abbr="ac_id" axis="col4">
+                                <div class=""></div>
+                            </th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+
+            <!-- config/users -->
+            <div class="ncap-form-default">
+                <dl class="row">
+                    <dt class="tit">
+                        <label for="uname">会员中心</label>
+                    </dt>
+                    <dd class="opt">
+                        <label>
+                            <input type="radio" name="users[users_open_register]" value="0" {if condition="!isset($info.users_open_register) || empty($info.users_open_register)"}checked="checked"{/if}/>开启
+                        </label>
+                        &nbsp;&nbsp;&nbsp;
+                        <label>
+                            <input type="radio" name="users[users_open_register]" value="1" {if condition="$info.users_open_register == 1"}checked="checked"{/if}/>关闭
+                        </label>
+                        <span style="padding-left: 10px; color: #C0C0C0;">关闭则自动隐藏账户注册/登录的入口</span>
+                    </dd>
+                </dl>
+
+                <dl class="row">
+                    <dt class="tit">
+                        <label for="uname">开启注册</label>
+                    </dt>
+                    <dd class="opt">
+                        <label>
+                            <input type="radio" name="users[users_open_reg]" value="0" {if condition="!isset($info.users_open_reg) || empty($info.users_open_reg)"}checked="checked"{/if}/>开启
+                        </label>
+                        &nbsp;&nbsp;&nbsp;
+                        <label>
+                            <input type="radio" name="users[users_open_reg]" value="1" {if condition="$info.users_open_reg == 1"}checked="checked"{/if}/>关闭
+                        </label>
+                        <span style="padding-left: 10px; color: #C0C0C0;">关闭则自动隐藏账户注册的入口</span>
+                    </dd>
+                </dl>
+
+                <dl class="row">
+                    <dt class="tit">
+                        <label for="username">注册验证</label>
+                    </dt>
+                    <dd class="opt" style="line-height: 30px;">
+                        <label>
+                            <input type="radio" name="users[users_verification]" value="0" {if condition="!isset($info.users_verification) || empty($info.users_verification)"}checked="checked"{/if}/>不验证
+                            <span style="padding-left: 23px; color: #C0C0C0;">注册会员后，可直接登录，无需验证</span>
+                        </label>
+                        <br/>
+                        <label>
+                            <input type="radio" name="users[users_verification]" value="1" {if condition="$info.users_verification == 1"}checked="checked"{/if}/>后台激活
+                            <span style="padding-left: 10px; color: #C0C0C0;">注册会员后，需后台审核激活后才能登录</span>
+                        </label>
+                        <br/>
+                        <label>
+                            <input type="radio" name="users[users_verification]" value="2" onclick="email(1);" {if condition="$info.users_verification == 2"}checked="checked"{/if}/>邮件验证
+                            <span style="padding-left: 10px; color: #C0C0C0;" >注册会员中，发送邮箱验证码校验才能注册</span>
+                        </label>
+                        <br/>
+                        <label>
+                            <input type="radio" name="users[users_verification]" value="3" onclick="mobile(1);" {if condition="$info.users_verification == 3"}checked="checked"{/if}/>手机验证
+                            <span style="padding-left: 10px; color: #C0C0C0;" >注册会员中，发送手机验证码校验才能注册</span>
+                        </label>
+                    </dd>
+                </dl>
+
+                <dl class="row">
+                    <dt class="tit">
+                        <label for="username">找回密码</label>
+                    </dt>
+                    <dd class="opt" style="line-height: 30px;">
+                        <label>
+                            <input type="radio" name="users[users_retrieve_password]" value="1" onclick="email(2, this);" {if condition="$info.users_retrieve_password == 1"}checked="checked"{/if}/>邮件验证
+                        </label>
+                        &nbsp;&nbsp;&nbsp;
+                        <label>
+                            <input type="radio" name="users[users_retrieve_password]" value="2" onclick="mobile(2, this);" {if condition="$info.users_retrieve_password == 2"}checked="checked"{/if}/>手机验证
+                        </label>
+                        <span style="padding-left: 10px; color: #C0C0C0;" >会员找回密码时的验证方法</span>
+                    </dd>
+                </dl>
+
+                <dl class="row">
+                    <dt class="tit">
+                        <label for="username">禁止注册用户名</label>
+                    </dt>
+                    <dd class="opt" style="line-height: 30px;">
+                        <textarea rows="5" cols="60" name="users[users_reg_notallow]" style="height:60px;">{$info.users_reg_notallow|default='www,bbs,ftp,mail,user,users,admin,administrator,eyoucms'}</textarea>
+                        <p class="notic">前台注册时禁止注册的用户名列表，以逗号(,)分隔开</p>
+                    </dd>
+                </dl>
+            </div>
+            <!-- config/theme -->
+            <div class="hDiv">
+                <div class="hDivBox">
+                    <table cellspacing="0" cellpadding="0" style="width: 100%">
+                        <thead>
+                        <tr>
+                            <th class="sign w10" axis="col0">
+                                <div class="tc"></div>
+                            </th>
+                            <th abbr="article_title" axis="col3" class="w10">
+                                <div class="tc">前台风格设置</div>
+                            </th>
+                            <th abbr="ac_id" axis="col4">
+                                <div class=""></div>
+                            </th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+            <div class="ncap-form-default">
+                <dl class="row">
+                    <dt class="tit">
+                        <label for="uname">左侧菜单</label>
+                    </dt>
+                    <dd class="opt">
+                        <a href="javascript:void(0);" onclick="menu_index();" class="ncap-btn ncap-btn-green">管理</a>
+                    </dd>
+                </dl>
+                <dl class="row">
+                    <dt class="tit">
+                        <label for="uname">主题颜色</label>
+                    </dt>
+                    <dd class="opt">
+                        <input type="text" name="theme[theme_color]" value="{$info.theme_color|default='#ff6565'}" id="picker" style="border-color: {$info.theme_color|default='#ff6565'};" />
+                    </dd>
+                </dl>
+            </div>
+
+            <div class="ncap-form-default">
+                <dl class="row">
+                    <div class="bot">
+                        <a href="JavaScript:void(0);" onclick="usersset();" class="ncap-btn-big ncap-btn-green" id="submitBtn">确认提交</a>
+                    </div>
+                </dl>
+            </div>
+
+        </form>
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+        // 表格行点击选中切换
+        $('#flexigrid > table>tbody >tr').click(function(){
+            $(this).toggleClass('trSelected');
+        });
+
+        // 点击刷新数据
+        $('.fa-refresh').click(function(){
+            location.href = location.href;
+        });
+
+        $('input[name="oauth[oauth_open]"]').click(function(){
+            var oauth_open = $(this).val();
+            if (1 == oauth_open) {
+                $('#oauth_list').show();
+            } else {
+                $('#oauth_list').hide();
+            }
+        });
+
+        // 颜色选择
+        $('#picker').colpick({
+            flat:false,
+            layout:'rgbhex',
+            submit:0,
+            colorScheme:'light',
+            color:$('#picker').val(),
+            onChange:function(hsb,hex,rgb,el,bySetColor) {
+                $(el).css('border-color','#'+hex);
+                // Fill the text box just if the color was set using the picker, and not the colpickSetColor function.
+                if(!bySetColor) $(el).val('#'+hex);
+            }
+        }).keyup(function(){
+            $(this).colpickSetColor('#'+this.value);
+        });
+    });
+
+    function email(source, obj) {
+        $.ajax({
+            url: "{:url('Member/ajax_users_config_email')}",
+            type: 'GET',
+            dataType: 'JSON',
+            data: {_ajax:1},
+            success: function(res){
+                if (res.code == 0) {
+                    if (1 == source) {
+                        $("input[name='users[users_verification]'][value=0]").attr("checked", "checked");
+                        layer.alert(res.msg, {icon: 2, title:false});
+                        return false;
+                    } else {
+                        $(obj).removeAttr('checked');
+                        layer.alert(res.msg, {icon: 2, title:false});
+                        return false;
+                    }
+                }
+            },
+            error: function(e){
+                showErrorMsg(ey_unknown_error);
+				$(obj).removeAttr('checked');
+                return false;
+            }
+        });
+    }
+
+    function mobile(source, obj) {
+        $.ajax({
+            url: "{:url('Member/ajax_users_config_mobile')}",
+            type: 'GET',
+            dataType: 'JSON',
+            data: {_ajax:1},
+            success: function(res){
+                if (res.code == 0) {
+                    if (1 == source) {
+                        $("input[name='users[users_verification]'][value=0]").attr("checked", "checked");
+                        layer.alert(res.msg, {icon: 2, title:false});
+                        return false;
+                    } else {
+                        $(obj).removeAttr('checked');
+                        layer.alert(res.msg, {icon: 2, title:false});
+                        return false;
+                    }
+                }
+            },
+            error: function(e){
+                showErrorMsg(ey_unknown_error);
+                $(obj).removeAttr('checked');
+                return false;
+            }
+        });
+    }
+
+    function set_oauth_config(obj)
+    {
+        var title = $(obj).data('title');
+        var oauth = $(obj).data('oauth');
+        var url = "{:url('Member/ajax_set_oauth_config')}";
+        if (url.indexOf('?') > -1) {
+            url += '&';
+        } else {
+            url += '?';
+        }
+        url += 'oauth='+oauth;
+        //iframe窗
+        layer.open({
+            type: 2,
+            title: title,
+            fixed: true, //不固定
+            shadeClose: false,
+            shade: 0.3,
+            maxmin: true, //开启最大化最小化按钮
+            area: ['80%', '80%'],
+            content: url
+        });
+    }
+
+    function menu_index()
+    {
+        var url = "{:url('Member/ajax_menu_index')}";
+        //iframe窗
+        layer.open({
+            type: 2,
+            title: '前台会员中心左侧菜单',
+            fixed: true, //不固定
+            shadeClose: false,
+            shade: 0.3,
+            maxmin: true, //开启最大化最小化按钮
+            area: ['80%', '80%'],
+            content: url
+        });
+    }
+
+    function usersset(){
+        layer_loading('正在处理');
+        $('#postForm').submit();
+    }
+
+</script>
+
+{include file="public/footer" /}

@@ -1,0 +1,103 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="renderer" content="webkit">
+<meta http-equiv="Cache-Control" content="no-siteapp"/>
+<!--页面seo标题-->
+<title>{$eyou.field.seo_title}</title>
+<!--页面seo描述-->
+<meta name="description" content="{$eyou.field.seo_description}" />
+<!--页面seo关键词-->
+<meta name="keywords" content="{$eyou.field.seo_keywords}" />
+<!--网站地址栏图标-->
+<link href="{eyou:global name='web_cmspath' /}/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+{eyou:static file="skin/css/amazeui.min.css" /}
+{eyou:static file="skin/css/app.css" /}
+{eyou:static file="skin/js/jquery.min.js" /}
+{eyou:static file="skin/js/amazeui.min.js" /}
+{eyou:static file="skin/js/app.js" /}
+</head>
+<body>
+<!--网站公用头部——开始-->
+{eyou:include file="header.htm" /}
+<!--网站公用头部——结束-->
+<div class="nav am-offcanvas" id="nav">
+  <div class="am-offcanvas-bar am-offcanvas-bar-flip">
+    <ul id="collapase-nav">
+      <!--当前栏目下二级栏目调用-->
+     {eyou:channel type="first" row='10'}
+      <li class="am-panel"> <span class="am-icon-angle-right" data-am-collapse="{parent:'#collapase-nav', target:'#nav_a{$i}'}"></span> <a href="{$field.typeurl}" title="{$field.typename}">{$field.typename}</a>
+        <ul class="am-collapse" id="nav_a{$i}">
+         <!--当前栏目下三级栏目调用-->
+          {eyou:channel name="$field.children" id="field2" row='10'}
+          <li><a href="{$field2.typeurl}" title="{$field2.typename}">{$field2.typename}</a></li>
+          {/eyou:channel}
+        </ul>
+      </li>
+     {/eyou:channel} 
+    </ul>
+  </div>
+</div>
+<article>
+ <!--筛选——开始-->
+  <section>
+   {eyou:screening id='field' currentstyle='hover' alltxt='全部' }
+    <div class="subject"> <b>筛选</b> </div>
+    <div class="clear"></div>
+    <div class="filter">
+     {eyou:volist name='$field.list' id='vo'}
+      <dl>
+        <dd>{$vo.title}：</dd>
+        <dt> 
+        {eyou:volist name='$vo.dfvalue' id='val'}
+        <a {$val.onClick} class="{$val.currentstyle}">{$val.name}</a>
+        {/eyou:volist} 
+        </dt>
+        <div class="clear"></div>
+      </dl>
+     {/eyou:volist}
+    </div>
+    {$field.hidden}
+   {/eyou:screening}  
+  </section>
+  <!--筛选——结束-->
+  <section>
+    <div class="subject">
+    {eyou:gt name='$eyou.field.grade' value='0'}
+    	<span class="more"><a href="javascript:;" class="am-icon-bars am-icon-sm" data-am-offcanvas="{target:'#nav'}"></a></span>
+    {eyou:else /}
+		{eyou:notempty name="$eyou.field.has_children"}
+		<span class="more"><a href="javascript:;" class="am-icon-bars am-icon-sm" data-am-offcanvas="{target:'#nav'}"></a></span>
+		{/eyou:notempty}
+    {/eyou:gt}
+    <b>{$eyou.field.typename}</b> </div>
+    <div class="clear"></div>
+    <div class="home_pro">
+      <ul>
+        {eyou:list titlelen='20' pagesize='12'}
+         <li><a href="{$field.arcurl}" title="{$field.title}">
+          <div><img src="{$field.litpic}" alt="{$field.title}"></div>
+          <p class="title">{$field.title}</p>
+          <p class="price"><span>点击数：{$field.click} </span>¥ {$field.users_price} </p>
+          </a></li>
+        {/eyou:list}  
+      </ul>
+      <div class="clear"></div>
+    </div>
+	  <!--列表分页——开始-->
+	  <div class="pagelist">
+		<ul>
+		   {eyou:pagelist listitem='index,pre,next,end' listsize='2' /}
+		</ul>
+	  </div>
+	  <!--列表分页——结束-->
+  </section>
+</article>
+<!--网站公用底部——开始-->
+{eyou:include file="footer.htm" /}
+<!--网站公用底部——结束-->
+</body>
+</html>

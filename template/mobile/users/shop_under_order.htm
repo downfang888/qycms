@@ -1,0 +1,394 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>下单页-{eyou:global name='web_name' /}</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <link href="{eyou:global name='web_cmspath'/}/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    {eyou:static file="users/skin/css/bootstrap.min.css" /}
+    {eyou:static file="users/skin/css/eyoucms.css" /}
+    {eyou:static file="users/skin/css/basic.css" /}
+    {eyou:static file="users/skin/css/shop.css" /}
+    {eyou:include file="users/skin/css/diy_css.htm"/}
+
+    {eyou:static file="/public/static/common/js/jquery.min.js"/}
+    {eyou:static file="/public/plugins/layer-v3.1.0/layer.js"/}
+    {eyou:static file="/public/static/common/js/tag_global.js"/}
+</head>
+
+<body>
+{eyou:include file="users/users_header.htm" /}
+
+<div class="member-profile ey-member">
+    <div class="container">
+        <div class="row">
+        <div class="member-profile-content">
+            <div class="row">
+                <div class="container">
+                    <div data-plugin="selectable" data-selectable="selectable">
+                        <form action="" name='theForm' id="theForm" method="post">
+                            {eyou:spsubmitorder id="field"}
+                            <div class="panel cart-body">
+                                <div class="panel-body">
+                                    <!-- 判断是否填写商城配置中的温馨提示信息 -->
+                                    {eyou:notempty name="$field.shop_prompt"}
+                                        <div class="djtip">
+                                            温馨提示：{$field.shop_prompt}
+                                        </div>
+                                        <br/>
+                                    {/eyou:notempty}
+
+                                    <!-- 判断是否属于实体产品,虚拟产品不需要收货地址 -->
+                                    {eyou:empty name="$field.PromType"}
+                                        <div>
+                                            <a href="JavaScript:void(0);" {$field.ShopAddAddr} class="addadr"><i class="fa fa-plus"></i>添加收货地址</a>
+                                        </div>
+                                        <br/>
+                                        <div>
+                                            <ul class="blocks-100 blocks-sm-2 blocks-md-3 m-b-0 addr-body shop-address" {$field.UlHtmlId}>
+                                                {eyou:spaddress id="addr_field"}
+                                                    {$addr_field.DefaultHidden}
+                                                    <li class="m-t-10" {$addr_field.ul_il_id}>
+                                                        <a class="list-group-item addr-list hover" href="javascript:void(0)" {$addr_field.SelectEd} >
+                                                            <div class="btn-group-xs" style="float: right;">
+                                                                <button type="button" class="btn btn-outline btn-default addr-set-edit" {$addr_field.ShopEditAddr} >
+                                                                    <i class="icon wb-edit m-0" aria-hidden="true"></i>
+                                                                </button>
+
+                                                                <button type="button" class="btn btn-outline btn-default addr-set-edit" {$addr_field.ShopDelAddr} >
+                                                                    <i class="fa fa-close"></i>
+                                                                </button>
+                                                            </div>
+                                                            <h4 class="list-group-item-heading" {$addr_field.ConsigneeId}>
+                                                                {$addr_field.consignee}
+                                                            </h4>
+
+                                                            <p class="list-group-item-text m-b-5 addr-info" {$addr_field.MobileId}>
+                                                                {$addr_field.mobile}
+                                                            </p>
+
+                                                            <p class="list-group-item-text addr-info" {$addr_field.InfoId}>
+                                                                {$addr_field.Info}
+                                                            </p>
+
+                                                            <p class="list-group-item-text addr-info" {$addr_field.AddressId}>
+                                                                {$addr_field.address}
+                                                            </p>
+                                                        </a>
+                                                    </li>
+                                                {/eyou:spaddress}
+                                             </ul>
+                                        </div>
+                                        {eyou:else/}
+                                        <div>
+                                        <!-- 虚拟产品输出信息,可根据自身需求更改 -->
+                                            该产品为虚拟产品，仅支持在线支付且无需选择收货地址及运费计算。<br/>
+                                            若产品是充值类产品，请将您的手机号或需充值的卡号填入留言中。
+                                        </div>
+                                    {/eyou:empty}
+                                </div>
+
+                                <div class="panel-body alpays">
+                                    {$field.PayTypeHidden}
+                                    <span>支付方式：</span>
+                                    <a href="JavaScript:void(0);" {$field.OnlinePay} class="btn btn-info btn-primary" style="border: none;">
+                                        <i class="fa fa-check-square-o"></i>在线支付
+                                    </a>
+
+                                    <!-- 判断是否开启商城配置中的货到付款开关 -->
+                                    {eyou:empty name="$field.shop_open_offline"}
+                                        <!-- 判断是否属于实体产品,虚拟产品不支付货到付款 -->
+                                        {eyou:empty name="$field.PromType"}
+                                            <a href="JavaScript:void(0);" {$field.DeliveryPay} class="btn btn-info" style="border: none;">
+                                                <i class="fa fa-check-square-o"></i>货到付款
+                                            </a>
+                                        {/eyou:empty}
+                                    {/eyou:empty}
+                                </div>
+
+                                <!-- 判断是否属于实体产品,虚拟产品不支付配送方式 -->
+                                {eyou:empty name="$field.PromType"}
+                                    <div class="panel-body psfs">
+                                        <span>配送方式：</span> 
+                                        <span style="">
+                                            快递配送 ( {$field.Shipping} )
+                                        </span>
+                                    </div>
+                                {/eyou:empty}
+
+                                <div class="panel-body">
+                                    <div class="cart-list animation-fade" data-scale="500x500">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="">商品</th>
+                                                        <th class="text-xs-center">单价</th>
+                                                        <th class="text-xs-center">小计</th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody>
+                                                    {eyou:spordergoods id="shop_field"}
+                                                    <tr class="text-xs-center">
+                                                        <td class="text-xs-left">
+                                                            <div class="media">
+                                                                <div class="media-left">
+                                                                    <a class="avatar text-middle" target="_blank" href="{$shop_field.arcurl}">
+                                                                    <img class="img-responsive" src="{$shop_field.litpic}" alt="">
+                                                                    </a>
+                                                                </div>
+                                                                <div class="media-body">
+                                                                    <h4 class="media-heading">
+                                                                        <a target="_blank" href="{$shop_field.arcurl}">
+                                                                            {$shop_field.title}
+                                                                        </a>
+                                                                    </h4>
+                                                                    <div class="m-b-0">
+                                                                        <!-- 商品规格 -->
+                                                                        {$shop_field.product_spec}
+                                                                        <!-- 商品规格 END-->
+                                                                        
+                                                                        <!-- 商品参数 -->
+                                                                        {eyou:attribute type='newattr' aid='$shop_field.aid' attrid='$shop_field.attrlist_id'}
+                                                                            <div>{$attr.name}：{$attr.value}</div>
+                                                                        {/eyou:attribute}
+                                                                        <!-- 商品新参数 END-->
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td style="width:120px">
+                                                            ￥{$shop_field.users_price}元 X {$shop_field.product_num}
+                                                        </td>
+                                                        <td style="color: red;width:120px">
+                                                            ￥{$shop_field.subtotal}元
+                                                        </td>
+                                                    </tr>
+                                                    {$shop_field.ProductHidden}
+                                                    {/eyou:spordergoods}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="panel cart-total p-0 animation-fade">
+                                <textarea class="form-control" rows="3" name="message" placeholder="给商家留言，选填"></textarea>
+                            </div>
+
+                            <div class="panel cart-total tot2 p-0 animation-fade">
+                                <div class="panel-body">
+                                    {$field.TotalAmountOld}
+                                    <div class="row">
+                                        <div class="col-lg-9 col-md-6 col-sm-6 col-xs-6 text-xs-right">
+                                            <span class="total-val">
+                                                共选中
+                                                <span style="color: red;">{$field.TotalNumber}</span>
+                                                件商品，合计:￥
+                                                <span {$field.TotalAmountId} style="color: red;">{$field.TotalAmount}</span>
+                                                元
+                                            </span>
+                                        </div>
+
+                                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6 text-xs-right">
+                                            <!-- 判断是否由购物车提交过来 -->
+                                            {eyou:eq name="$field.submit_order_type" value="0"}
+                                                <a href="{$field.ReturnCartUrl}" class="btn btn-primary">返回购物车</a>
+                                            {/eyou:eq}
+                                            {eyou:eq name="is_wechat" value='2'}
+                                                <input type="button" name="submit" value="提交订单" class="btn btn-primary" {$field.ShopPaymentPage} >
+                                            {eyou:else/}
+                                                <input type="button" name="submit" value="提交订单" class="btn btn-primary" onclick="WeChatPayment();" >
+                                                </a>
+                                            {/eyou:eq}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {$field.TokenValue}
+                            {$field.hidden}
+                            {/eyou:spsubmitorder}
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    <input type="hidden" id="unified_id">
+    <input type="hidden" id="unified_number">
+    <input type="hidden" id="transaction_type">
+</div>
+<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.3.2.js"></script>
+<script type="text/javascript">
+    // 小程序查询调用
+    $( function() {
+        wx.miniProgram.getEnv( function(res) {
+            if(res.miniprogram) {
+                // 小程序
+                var i = 0;
+                i = setInterval('AppletsPay()', 1000);
+            }
+        });
+    });
+
+    // 小程序查询
+    function AppletsPay() {
+        var unified_id       = $('#unified_id').val();
+        var unified_number   = $('#unified_number').val();
+        var transaction_type = $('#transaction_type').val();
+        if (unified_id && unified_number && transaction_type) {
+            $.ajax({
+                url: "{eyou:url link='user/Pay/ajax_applets_pay'/}",
+                data: {unified_id:unified_id, unified_number:unified_number, transaction_type:transaction_type},
+                type:'post',
+                dataType:'json',
+                success:function(res){
+                    if (1 == res.code) {
+                        if (!res.data.mobile && !res.data.email) window.location.href = res.url;
+                        if (res.data.mobile) SendMobile(res.data.mobile);
+                        if (res.data.email) SendEmail(res.data.email);
+                        window.location.href = res.url;
+                    }
+                }
+            });
+        }
+    }
+
+    // 判断支付类型是否一致并且更新支付方式
+    function WeChatPayment() {
+        layer_loading('正在处理');
+        $.ajax({
+            url: "{eyou:url link='user/Shop/shop_payment_page'/}",
+            data: $('#theForm').serialize(),
+            type:'post',
+            dataType:'json',
+            success:function(res){
+                layer.closeAll();
+                if (1 == res.code) {
+                    if (1 == res.data.is_gourl) {
+                        window.location.href = res.url;
+                    } else {
+                        $('#unified_id').val(res.data.unified_id);
+                        $('#unified_number').val(res.data.unified_number);
+                        $('#transaction_type').val(res.data.transaction_type);
+                        WeChatInternal(res.data);
+                    }
+                } else {
+                    layer.msg(res.msg, {icon: 2,time: 2000});
+                }
+            }
+        });
+    }
+
+    // 微信内部中进行支付
+    function WeChatInternal(wechatdata) {
+        wx.miniProgram.getEnv( function(res) {
+            if(res.miniprogram) {
+                // 小程序
+                wx.miniProgram.navigateTo({
+                    url: '/pages/pay/pay?unified_id='+ wechatdata['unified_id'] +'&unified_number=' + wechatdata['unified_number'] + '&type=' + wechatdata['transaction_type']
+                });
+            } else {
+                // 微信端
+                $.ajax({
+                    url: "{eyou:url link='user/Pay/wechat_pay'/}",
+                    data: wechatdata,
+                    type:'post',
+                    dataType:'json',
+                    success:function(res){
+                        if (1 == res.code) {
+                            callpay(res.msg);
+                        } else {
+                            layer.alert(res.msg, {icon:0});
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    //调用微信JS api 支付
+    function jsApiCall(data) {
+        WeixinJSBridge.invoke(
+            'getBrandWCPayRequest',data,
+            function(res){
+                if (res.err_msg == "get_brand_wcpay_request:ok") {  
+                    layer.msg('微信支付完成！', {time: 1000}, function() {
+                        pay_deal_with();
+                    });
+                } else if (res.err_msg == "get_brand_wcpay_request:cancel") {
+                    layer.alert('用户取消支付，跳转至订单列表页进行支付！', {icon:0}, function() {
+                        var OrderUrl = "{eyou:url link='user/Shop/shop_centre'/}";
+                        window.location.href = OrderUrl;
+                    });
+                } else {
+                    layer.alert('支付失败', {icon:0});
+                }  
+            }
+        );
+    }
+    
+    // 微信内部支付时，先进行数据判断
+    function callpay(data) {
+        if (typeof WeixinJSBridge == "undefined"){
+            if ( document.addEventListener ) {
+                document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);
+            } else if (document.attachEvent) {
+                document.attachEvent('WeixinJSBridgeReady', jsApiCall); 
+                document.attachEvent('onWeixinJSBridgeReady', jsApiCall);
+            }
+        } else {
+            jsApiCall(data);
+        }
+    }
+
+    // 微信订单查询
+    function pay_deal_with() {
+        var unified_number   = $('#unified_number').val();
+        var transaction_type = $('#transaction_type').val();
+        $.ajax({
+            url: "{eyou:url link='user/Pay/pay_deal_with'/}",
+            data: {unified_number:unified_number,transaction_type:transaction_type},
+            type:'post',
+            dataType:'json',
+            success:function(res){
+                if (1 == res.data.status) {
+                    if (!res.data.mobile && !res.data.email) window.location.href = res.url;
+                    if (res.data.mobile) SendMobile(res.data.mobile);
+                    if (res.data.email) SendEmail(res.data.email);
+                    window.location.href = res.url;
+                }
+            }
+        });
+    }
+
+    // 发送短信
+    function SendMobile(result) {
+        if (result) {
+            $.ajax({
+                url: result.url,
+                data: result.data,
+                type:'post',
+                dataType:'json'
+            });
+        }
+    }
+
+    // 发送邮件
+    function SendEmail(result) {
+        if (result) {
+            $.ajax({
+                url: result.url,
+                data: result.data,
+                type:'post',
+                dataType:'json'
+            });
+        }
+    }
+</script> 
+{eyou:include file="users/users_footer.htm" /}

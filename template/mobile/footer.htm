@@ -1,0 +1,24 @@
+<footer>
+  <p>{eyou:global name='web_copyright' /}　　<a href="{eyou:global name='web_basehost' /}/sitemap.xml" class="am-icon-map-marker am-icon-sm" title="Xml网站地图"></a></p>
+</footer>
+<figure class="footnav">
+  <div class="search">
+    {eyou:searchform type='default'}
+    <form method="get" action="{$field.action}">
+      {$field.hidden}
+      <span><a href="javascript:;" onclick="$('.search').toggle()" class="am-close">&times;</a>站内搜索：</span>
+      <input type="text" name="keywords" placeholder="请输入关键字" />
+      <button type="submit">搜索</button>
+    </form>
+    {/eyou:searchform} 
+  </div>
+  <ul>
+    <li><a href="{eyou:global name='web_cmsurl' /}"><span class="am-icon-home"></span>首页</a></li>
+    <li><a href="tel:{eyou:global name='web_attr_1' /}"><span class="am-icon-phone"></span>电话</a></li>
+    <li><a href="{eyou:type typeid="30"}{$field.typeurl}{/eyou:type}"><span class="am-icon-comment-o"></span>留言</a></li>
+    <li><a href="javascript:;" onclick="$('.search').toggle()"><span class="am-icon-search"></span>搜索</a></li>
+  </ul>
+</figure>
+<!-- 应用插件标签 start --> 
+{eyou:weapp type='default' /} 
+<!-- 应用插件标签 end -->

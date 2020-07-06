@@ -1,0 +1,91 @@
+{include file="public/layout"/}
+<body class="bodystyle" style=" overflow-y: scroll;min-width:auto;">
+<div id="toolTipLayer" style="position: absolute; z-index: 9999; display: none; visibility: visible; left: 95px; top: 573px;"></div>
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+<div class="page" style="min-width:auto; ">
+    {include file="system/bar" /}
+    <div class="flexigrid">
+        <div class="mDiv">
+            <div class="ftitle">
+                <h3>接口配置</h3>
+            </div>
+            <div title="刷新数据" class="pReload"><i class="fa fa-refresh"></i></div>
+        </div>
+
+        {eq name="$pay_open" value="1"}
+        <!-- 微信、支付宝支付配置 -->
+        {include file="system/pay_set" /}
+        <!-- END -->
+        {/eq}
+
+        <!-- 邮箱配置 -->
+        {include file="system/smtp" /}
+        <!-- END -->
+
+        <!-- 手机短信配置 -->
+        {include file="system/sms" /}
+        <!-- END -->
+
+        <!-- 微站点配置 -->
+        {include file="system/microsite" /}
+        <!-- END -->
+
+        <!-- OSS点配置 -->
+        <!-- {include file="system/oss" /} -->
+        <!-- END -->
+    </div>
+</div>
+
+<!--右悬浮配置导航-->
+<div class="floatNav">
+    <div class="floatNav-tit">
+        配置快捷导航
+    </div>
+    <div class="floatNav-con">
+        <ul>
+            <li>
+                <div class="dot"></div>
+                <div class="event" data-to="wechat_set"><a href="javascript:void(0);">微信支付配置</a></div>
+            </li>
+            <li>
+                <div class="dot"></div>
+                <div class="event" data-to="alipay_set"><a href="javascript:void(0);">支付宝支付配置</a></div>
+            </li>
+            <li>
+                <div class="dot"></div>
+                <div class="event" data-to="smtp"><a href="javascript:void(0);">邮箱配置</a></div>
+            </li>
+            <li>
+                <div class="dot"></div>
+                <div class="event" data-to="sms"><a href="javascript:void(0);">短信配置</a></div>
+            </li>
+            <li>
+                <div class="dot"></div>
+                <div class="event" data-to="microsite"><a href="javascript:void(0);">微站点设置</a></div>
+            </li>
+            <!-- <li>
+                <div class="dot"></div>
+                <div class="event" data-to="oss"><a href="javascript:void(0);">OSS配置</a></div>
+            </li> -->
+        </ul>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function(){
+        //右侧浮动点击定位到相应模块
+        var lis = document.getElementsByClassName("event");
+        for(var i = 0; i < lis.length; i++) {
+            lis[i].onclick = function() {
+                //获取当前event的data-to属性值，用来匹配目标div
+                var attr = this.getAttribute("data-to");
+                //获取与当前event想匹配的div距离页面顶端的距离
+                var div_top = document.getElementById(attr).offsetTop;
+                window.scrollTo(0, div_top + 70);
+            }
+        }
+    })
+</script>
+
+{include file="public/footer" /}

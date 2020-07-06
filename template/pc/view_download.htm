@@ -1,0 +1,116 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=0">
+<meta name="renderer" content="webkit">
+<meta http-equiv="Cache-Control" content="no-siteapp"/>
+<!--页面seo标题-->
+<title>{$eyou.field.seo_title}</title>
+<!--页面seo描述-->
+<meta name="description" content="{$eyou.field.seo_description}" />
+<!--页面seo关键词-->
+<meta name="keywords" content="{$eyou.field.seo_keywords}" />
+<!--网站地址栏图标-->
+<link href="{eyou:global name='web_cmspath' /}/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+{eyou:static file="skin/css/amazeui.min.css" /}
+{eyou:static file="skin/css/app.css" /}
+<!--[if lt IE 9]>
+<div class="notsupport">
+	<h1>:( 非常遗憾</h1>
+	<h2>您的浏览器版本太低，请升级您的浏览器</h2>
+</div>
+<![endif]--> 
+{eyou:static file="skin/js/jquery.min.js" /}
+{eyou:static file="skin/js/amazeui.min.js" /}
+{eyou:static file="skin/js/app.js" /}
+</head>
+<body>
+<!--网站公用头部——开始-->
+{eyou:include file="header.htm" /}
+<!--网站公用头部——结束-->
+<!--网站公用自定义文件——开始-->
+{eyou:include file="banner.htm" /}
+<!--网站公用自定义文件——结束-->
+<div class="width inner_container">
+  <!--当前位置调用-->
+<ol class="am-breadcrumb">
+    <li><i class="am-icon-home"></i>{eyou:position style="" /}</li>  
+  </ol>
+  <div class="dow_show">
+   <div class="infobox">
+      <div class="img">
+      	<img src="{$eyou.field.litpic}" alt="">
+      </div>
+      <div class="txt">
+      	<h2>{$eyou.field.title}</h2>
+      	<span>{$field.seo_description|html_msubstr=###,0,90,true}</span>
+      	<div class="property">
+     	  <span>作者：{$eyou.field.author}</span>
+      	  <span>上传时间：{$eyou.field.add_time|MyDate='Y-m-d',###}</span>
+      	  <span>浏览量：{$eyou.field.click}</span>
+      	</div>
+      </div>
+     <div class="xia">文件下载列表 : 
+		{eyou:volist name="$eyou.field.file_list" id="field"}
+		<span class="xiazai"><a href="{$field.downurl}" title="{$field.title}">{eyou:lang name='yybl10' /}({$i})</a></span>
+		{/eyou:volist}
+	 </div>
+   </div>
+   <div class="subject m20"><b>详细介绍</b> </div>
+    <div class="intro">
+      {$eyou.field.content} 
+      <div class="clear"></div>
+    </div>
+    <!--上下篇——开始-->
+    <div class="prenext">
+     <!--上一篇-->
+     {eyou:prenext get='pre'}
+	  <a href="{$field.arcurl}" title="{$field.title}" class="pre"> {eyou:lang name='sys11' /} : {$field.title}</span> </a>  
+  	 {eyou:else /}
+	  <a class="pre">{eyou:lang name='sys11' /}：{eyou:lang name='sys10' /}</a>
+	 {/eyou:prenext}
+     <!--下一篇-->
+     {eyou:prenext get='next'}
+	  <a href="{$field.arcurl}" title="{$field.title}" class="next"> {eyou:lang name='sys12' /} : {$field.title}</span> </a>  
+  	 {eyou:else /}
+	  <a class="next">{eyou:lang name='sys12' /}：{eyou:lang name='sys10' /}</a>
+	 {/eyou:prenext}
+    </div>
+    <!--上下篇——结束-->
+    <hr class="am-margin-top-lg">
+    <!--tag标签——开始-->
+    {eyou:notempty name='$eyou.field.tags'}
+    <div class="tags"><span class="am-icon-tags"></span> 标签：
+    {eyou:tag sort='now' getall='0' row='100' empty=''}
+		<a href="{$field.link}"  {$field.target}>{$field.tag}</a>
+	{/eyou:tag}
+	</div>
+	{/eyou:notempty}
+	<!--tag标签——结束-->
+  </div>
+  <div class="subject m20"> <b>随便看看</b> </div>
+  <ul class="home_news_list">
+   {eyou:arclist orderby='rand' titlelen='30' row='6'}
+     <li>
+          <div class="date">
+          	<span class="dateline">{$field.add_time|MyDate='d',###}</span>
+          	<em>{$field.add_time|MyDate='Y-m',###}</em>
+          </div>
+          <div class="txt">
+          	<a href="{$field.arcurl}" title="{$field.title}">{$field.title}</a>{$field.seo_description|html_msubstr=###,0,60,true}
+          </div>
+		</li>
+   {/eyou:arclist}  
+   
+  </ul>
+  <div class="clear"></div>
+</div>
+<!--网站公用底部——开始-->
+{eyou:include file="footer.htm" /}
+<!--网站公用底部——结束-->
+
+
+</body>
+</html>

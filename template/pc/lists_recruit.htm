@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+<head>
+<!--此模板为自定义新增招聘模型列表模板-->
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=0">
+<meta name="renderer" content="webkit">
+<meta http-equiv="Cache-Control" content="no-siteapp"/>
+<!--页面seo标题-->
+<title>{$eyou.field.seo_title}</title>
+<!--页面seo描述-->
+<meta name="description" content="{$eyou.field.seo_description}" />
+<!--页面seo关键词-->
+<meta name="keywords" content="{$eyou.field.seo_keywords}" />
+<!--网站地址栏图标-->
+<link href="{eyou:global name='web_cmspath' /}/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+{eyou:static file="skin/css/amazeui.min.css" /}
+{eyou:static file="skin/css/app.css" /}
+<!--[if lt IE 9]>
+<div class="notsupport">
+	<h1>:( 非常遗憾</h1>
+	<h2>您的浏览器版本太低，请升级您的浏览器</h2>
+</div>
+<![endif]--> 
+{eyou:static file="skin/js/jquery.min.js" /}
+{eyou:static file="skin/js/amazeui.min.js" /}
+{eyou:static file="skin/js/app.js" /}
+</head>
+<body>
+<!--网站公用头部——开始-->
+{eyou:include file="header.htm" /}
+<!--网站公用头部——结束-->
+<!--网站公用自定义文件——开始-->
+{eyou:include file="banner.htm" /}
+<!--网站公用自定义文件——结束-->
+<div class="width inner_container">
+  <!--当前位置调用-->
+<ol class="am-breadcrumb">
+    <li><i class="am-icon-home"></i>{eyou:position style="" /}</li>  
+  </ol>
+<div class="home_nav">
+    <ul id="subnav">
+      <!--当前栏目下所有子栏目调用-->
+      {eyou:channel type="first" row='10' currentstyle="hover"}
+      <li class="{$field.currentstyle}"><a href="{$field.typeurl}" title="{$field.typename}">{$field.typename}</a></li>
+      {/eyou:channel}
+    </ul>
+    <div class="clear"></div>
+  </div>
+  <table class="am-table am-table-striped am-table-hover">
+    <thead>
+      <tr>
+        <th>职位名称</th>
+        <th width="150">工作地点</th>
+        <th width="150">招聘人数</th>
+        <th width="180">薪资待遇</th>
+        <th width="150">发布日期</th>
+      </tr>
+    </thead>
+    <tbody>
+     {eyou:list titlelen='30' pagesize='10' addfields='gzdd,zprs,xzdy'}
+      <tr>
+        <td><a href="{$field.arcurl}" title="{$field.title}">{$field.title}</a></td>
+        <td>{$field.gzdd}</td>
+        <td>{$field.zprs}</td>
+        <td>{$field.xzdy}</td>
+        <td>{$field.add_time|MyDate='Y-m-d',###}</td>
+      </tr>
+    {/eyou:list}  
+    </tbody>
+  </table>
+  <div class="clear"></div>
+  <div class="pagelist">
+    <ul>
+       {eyou:pagelist listitem='index,pre,pageno,next,end' listsize='2' /}
+    </ul>
+  </div>
+</div>
+<!--网站公用底部——开始-->
+{eyou:include file="footer.htm" /}
+<!--网站公用底部——结束-->
+</body>
+</html>

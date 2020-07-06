@@ -1,0 +1,215 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=0">
+<meta name="renderer" content="webkit">
+<meta http-equiv="Cache-Control" content="no-siteapp"/>
+<!--页面seo标题-->
+<title>{$eyou.field.seo_title}</title>
+<!--页面seo描述-->
+<meta name="description" content="{$eyou.field.seo_description}" />
+<!--页面seo关键词-->
+<meta name="keywords" content="{$eyou.field.seo_keywords}" />
+<!--网站地址栏图标-->
+<link href="{eyou:global name='web_cmspath' /}/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+{eyou:static file="skin/css/amazeui.min.css" /}
+{eyou:static file="skin/css/app.css" /}
+<!--[if lt IE 9]>
+<div class="notsupport">
+	<h1>:( 非常遗憾</h1>
+	<h2>您的浏览器版本太低，请升级您的浏览器</h2>
+</div>
+<![endif]-->
+{eyou:static file="skin/js/jquery.min.js" /}
+{eyou:static file="skin/js/amazeui.min.js" /}
+{eyou:static file="skin/js/app.js" /}
+{eyou:static file="skin/js/piccontent.min.js" /}
+
+</head>
+<body>
+<!--网站公用头部——开始-->
+{eyou:include file="header.htm" /}
+<!--网站公用头部——结束-->
+<!--网站公用自定义文件——开始-->
+{eyou:include file="banner.htm" /}
+<!--网站公用自定义文件——结束-->
+<div class="width inner_container">
+<!--当前位置调用-->
+<ol class="am-breadcrumb">
+    <li><i class="am-icon-home"></i>{eyou:position style="" /}</li>
+  </ol>
+  <div class="news_show">
+      <div class="main"> 
+  <!--弹出层开始-->
+  <div class="bodymodal"></div>
+  <!--播放到第一张图的提示-->
+  <div class="firsttop">
+    <div class="firsttop_right">
+      <div class="close2"> <a class="closebtn1" title="关闭" href="javascript:void(0)"></a> </div>
+      <div class="replay">
+        <h2 id="div-end-h2"> 已到第一张图片了。 </h2>
+        <p> <a class="replaybtn1" href="javascript:;">重新播放</a> </p>
+      </div>
+      <div class="pictwo">
+        <ul>
+          {eyou:prenext get='pre'}
+         <li><a href="{$field.arcurl}" title="{$field.title}"><img src="{$field.litpic}" alt="{$field.title}" /></a>
+            <div class="imgdivtext"> <a href="{$field.arcurl}" title="{$field.title}">上一图集</a> </div>
+          </li>
+         {eyou:else /}
+           <li><a href="{$field.arcurl}" title="{$field.title}"><img src="{eyou:global name='web_templets_pc' /}/skin/img/nimg.png" alt="{$field.title}" /></a>
+            <div class="imgdivtext"> <a>没有上一图集了</a> </div>
+          </li>
+         {/eyou:prenext} 
+         {eyou:prenext get='next'}
+         <li><a href="{$field.arcurl}" title="{$field.title}"><img src="{$field.litpic}" alt="{$field.title}" /></a>
+            <div class="imgdivtext"> <a href="{$field.arcurl}" title="{$field.title}">下一图集</a> </div>
+          </li>
+         {eyou:else /}
+           <li><a href="{$field.arcurl}" title="{$field.title}"><img src="{eyou:global name='web_templets_pc' /}/skin/img/nimg.png" alt="{$field.title}" /></a>
+            <div class="imgdivtext"> <a>没有上一图集了</a> </div>
+          </li>
+         {/eyou:prenext}     
+        </ul>
+      </div>
+      <div class="returnbtn"> <a href="{$eyou.field.typeurl}">返回列表</a> </div>
+    </div>
+  </div>
+  <!--播放到最后一张图的提示-->
+  <div class="endtop">
+    <div class="firsttop_right">
+      <div class="close2"> <a class="closebtn2" title="关闭" href="javascript:void(0)"></a> </div>
+      <div class="replay">
+        <h2 id="H1"> 已到最后一张图片了。 </h2>
+        <p> <a class="replaybtn2" href="javascript:;">重新播放</a> </p>
+      </div>
+      <div class="pictwo">
+        <ul>
+         {eyou:prenext get='pre'}
+         <li><a href="{$field.arcurl}" title="{$field.title}"><img src="{$field.litpic}" alt="{$field.title}" /></a>
+            <div class="imgdivtext"> <a href="{$field.arcurl}" title="{$field.title}">上一图集</a> </div>
+          </li>
+         {eyou:else /}
+           <li><a href="{$field.arcurl}" title="{$field.title}"><img src="{eyou:global name='web_templets_pc' /}/skin/img/nimg.png" alt="{$field.title}" /></a>
+            <div class="imgdivtext"> <a>没有上一图集了</a> </div>
+          </li>
+         {/eyou:prenext} 
+         {eyou:prenext get='next'}
+         <li><a href="{$field.arcurl}" title="{$field.title}"><img src="{$field.litpic}" alt="{$field.title}" /></a>
+            <div class="imgdivtext"> <a href="{$field.arcurl}" title="{$field.title}">下一图集</a> </div>
+          </li>
+         {eyou:else /}
+           <li><a href="{$field.arcurl}" title="{$field.title}"><img src="{eyou:global name='web_templets_pc' /}/skin/img/nimg.png" alt="{$field.title}" /></a>
+            <div class="imgdivtext"> <a>没有上一图集了</a> </div>
+          </li>
+         {/eyou:prenext}             
+        </ul>
+      </div>
+      <div class="returnbtn"> <a href="{$eyou.field.typeurl}">返回列表</a> </div>
+    </div>
+  </div>
+  <!--弹出层结束--> 
+  <!--图片特效内容开始-->
+  <div class="piccontext">
+    <h2> {$eyou.field.title} </h2>
+    <div class="source">
+      <div class="source_left"> 作者：{$eyou.field.author}<span>{$eyou.field.add_time|MyDate='Y-m-d H:i:s',###}</span> </div>
+      <div class="source_right">
+        <div class="support"> 支持<img src="{eyou:global name='web_templets_pc' /}/skin/img/jiantou1.jpg" />键翻阅图片 </div>
+        <span>|</span><a href="javascript:;" class="list">列表查看</a> </div>
+      <div class="source_right1"> <a href="javascript:;" class="gaoqing">高清查看</a> </div>
+    </div>
+    <!--大图展示-->
+    <div class="picshow">
+      <div class="picshowtop">
+          <a href="#"><img src="" alt="" id="pic1" curindex="0" /></a>
+          <a id="preArrow" href="javascript:void(0)" class="contextDiv" title="上一张"><span id="preArrow_A"></span></a>
+          <a id="nextArrow" href="javascript:void(0)" class="contextDiv" title="下一张"><span id="nextArrow_A"></span></a>
+      </div>
+      <div class="picshowtxt">
+       
+        <div class="picshowtxt_left"><span>1</span>/<i>{$eyou.field.image_list|count=###}</i></div>
+        
+        <div class="picshowtxt_right"></div>
+      </div>
+      <div class="picshowlist"> 
+        <!--上一条图库-->
+        {eyou:prenext get='pre'}
+         <div class="picshowlist_left">
+          <div class="picleftimg"> <a href="{$field.arcurl}" title="{$field.title}"><img src="{$field.litpic}" alt="{$field.title}" /></a> </div>
+          <div class="piclefttxt"> <a href="{$field.arcurl}" title="{$field.title}">{$field.title}</a> </div>
+        </div>
+         {eyou:else /}
+        <div class="picshowlist_left">
+          <div class="picleftimg"> <a href="{$field.arcurl}" title="{$field.title}"><img src="{eyou:global name='web_templets_pc' /}/skin/img/nimg.png" alt="{$field.title}" /></a> </div>
+          <div class="piclefttxt"> <a>没有上一篇了</a> </div>
+        </div>
+        {/eyou:prenext}
+        <div class="picshowlist_mid">
+          <div class="picmidleft"> <a href="javascript:void(0)" id="preArrow_B"><img src="{eyou:global name='web_templets_pc' /}/skin/img/left1.jpg" alt="上一个" /></a> </div>
+          <div class="picmidmid">
+            <ul>
+             {eyou:volist name="$eyou.field.image_list"}
+              <li> <a href="javascript:void(0);"><img src="{$field.image_url}" alt="{$eyou.field.title}" bigimg="{$field.image_url}" text="{$eyou.field.title}" /></a></li>
+              {/eyou:volist}
+            </ul>
+          </div>
+          <div class="picmidright"> <a href="javascript:void(0)" id="nextArrow_B"><img src="{eyou:global name='web_templets_pc' /}/skin/img/right1.jpg" alt="下一个" /></a> </div>
+        </div>
+        <!--下一张图库新闻-->
+        {eyou:prenext get='next'}
+         <div class="picshowlist_right">
+          <div class="picleftimg"> <a href="{$field.arcurl}" title="{$field.title}"><img src="{$field.litpic}" alt="{$field.title}" /></a> </div>
+          <div class="piclefttxt"> <a href="{$field.arcurl}" title="{$field.title}">{$field.title}</a> </div>
+        </div>
+         {eyou:else /}
+        <div class="picshowlist_left">
+          <div class="picleftimg"> <a href="{$field.arcurl}" title="{$field.title}"><img src="{eyou:global name='web_templets_pc' /}/skin/img/nimg.png" alt="{$field.title}" /></a> </div>
+          <div class="piclefttxt"> <a>没有下一篇了</a> </div>
+        </div>
+        {/eyou:prenext}
+      </div>
+    </div>
+    
+    <!--列表展示-->
+    <div class="piclistshow">
+      <ul>
+        {eyou:volist name="$eyou.field.image_list"}
+        <li>
+          <div class="picimg"><img src="{$field.image_url}" alt="{$eyou.field.title}" /></div>
+          <div class="pictxt">
+            <h3>{$eyou.field.title}<span>({$i}/{$eyou.field.image_list|count=###})</span></h3>
+          </div>
+        </li>
+        {/eyou:volist} 
+      </ul>
+    </div>
+  </div>
+</div>
+      <div class="clear"></div>
+      {$eyou.field.content} 
+      <div class="clear"></div>
+    <!--上下篇——开始-->
+    
+    <!--上下篇——结束-->
+    <hr class="am-margin-top-lg">
+    <!--tag标签——开始-->
+    {eyou:notempty name='$eyou.field.tags'}
+    <div class="tags"><span class="am-icon-tags"></span> 标签：
+    {eyou:tag sort='now' getall='0' row='100' empty=''}
+		<a href="{$field.link}"  {$field.target}>{$field.tag}</a>
+	{/eyou:tag}
+	</div>
+	{/eyou:notempty}
+	<!--tag标签——结束-->
+  </div>
+  <div class="clear"></div>
+</div>
+<!--网站公用底部——开始-->
+{eyou:include file="footer.htm" /}
+<!--网站公用底部——结束--> 
+
+</body>
+</html>

@@ -1,0 +1,151 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="renderer" content="webkit">
+<meta http-equiv="Cache-Control" content="no-siteapp"/>
+<!--首页seo标题-->
+<title>{eyou:global name='web_title' /}</title>
+<!--首页seo描述-->
+<meta name="description" content="{eyou:global name='web_description' /}" />
+<!--首页seo关键词-->
+<meta name="keywords" content="{eyou:global name='web_keywords' /}" />
+<!--网站地址栏图标-->
+<link href="{eyou:global name='web_cmspath' /}/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+{eyou:static file="skin/css/amazeui.min.css" /}
+{eyou:static file="skin/css/app.css" /}
+{eyou:static file="skin/css/swiper.min.css" /}
+
+{eyou:static file="skin/js/jquery.min.js" /}
+{eyou:static file="skin/js/amazeui.min.js" /}
+{eyou:static file="skin/js/app.js" /}
+{eyou:static file="skin/js/swipe.js" /} 
+</head>
+
+<body>
+<!--网站公用头部——开始-->
+{eyou:include file="header.htm" /}
+<!--网站公用头部——结束-->
+<!--广告首页大幻灯——开始-->
+<figure class="banner">
+  <div class="swiper-container">
+    <div class="swiper-wrapper">
+     {eyou:adv pid='3'}
+      <div class="swiper-slide"><a href="{$field.links}" {$field.target}><img src="{$field.litpic}" alt="{$field.title}"/></a></div>
+     {/eyou:adv} 
+    </div>
+    <div class="swiper-pagination"></div>
+  </div>
+</figure>
+<!--广告首页大幻灯——结束-->
+<article>
+<!--产品中心——开始-->
+ {eyou:channelartlist typeid='3'}
+  <section>
+    <div class="subject"> <span class="more"><a href="{eyou:field name='typeurl' /}">更多>></a></span><b>{eyou:field name='typename' /}</b> </div>
+    <div class="clear"></div>
+    <div class="home_pro">
+      <ul>
+       {eyou:arclist row='4' titlelen='30'}
+        <li><a href="{$field.arcurl}" title="{$field.title}">
+          <div><img src="{$field.litpic}" alt="{$field.title}"></div>
+          <p class="title">{$field.title}</p>
+          <p class="price"><span>点击数：{$field.click} </span>¥ {$field.users_price} </p>
+          </a></li>
+       {/eyou:arclist} 
+      </ul>
+      <div class="clear"></div>
+    </div>
+  </section>
+  {/eyou:channelartlist}
+  <!--产品中心——结束-->
+  <!--新闻动态——开始-->
+  {eyou:channelartlist typeid='2'}
+  <section>
+    <div class="subject"> <span class="more"><a href="{eyou:field name='typeurl' /}">更多>></a></span><b>{eyou:field name='typename' /}</b> </div>
+    <div class="clear"></div>
+    <ul class="home_news">
+      {eyou:arclist row='5' titlelen='40'}
+      <li><span class="date">{$field.add_time|MyDate='m-d',###}</span>
+        <div class="right"><a href="{$field.arcurl}" title="{$field.title}" class="text-hide">{$field.title}</a>
+          <p class="text-hide">{$field.seo_description|html_msubstr=###,0,60,true}</p>
+        </div>
+      </li>
+      {/eyou:arclist} 
+    </ul>
+    <div class="clear"></div>
+  </section>
+  {/eyou:channelartlist}
+  <!--新闻动态——结束-->
+  <!--客户案例——开始-->
+  {eyou:channelartlist typeid='4'}
+  <section>
+    <div class="subject"> <span class="more"><a href="{eyou:field name='typeurl' /}">更多>></a></span><b>{eyou:field name='typename' /}</b> </div>
+    <div class="clear"></div>
+    <div class="home_case">
+      <ul>
+       {eyou:arclist row='4' titlelen='30'}
+        <li><a href="{$field.arcurl}" title="{$field.title}">
+          <div><img src="{$field.litpic}" alt="{$field.title}"></div>
+          <p class="text-hide">{$field.title}</p>
+          </a></li>
+       {/eyou:arclist}  
+      </ul>
+      <div class="clear"></div>
+    </div>
+  </section>
+  {/eyou:channelartlist}
+  <!--客户案例——结束-->
+  <!--关于我们——开始-->
+  {eyou:channelartlist typeid='1'}
+  <section>
+    <div class="subject"> <span class="more"><a href="{eyou:field name='typeurl' /}">更多>></a></span><b>{eyou:field name='typename' /}</b> </div>
+    <div class="clear"></div>
+    <div class="about">
+     <!--公司简介——开始-->
+      <p style="text-indent: 2em;">
+      {eyou:type typeid='8' addtable='single_content'}{$field.content|html_msubstr=###,0,155}...{/eyou:type}
+      </p>
+      <!--公司简介——结束-->
+    </div>
+  </section>
+  {/eyou:channelartlist}
+  <!--关于我们——结束-->
+  <!--人才招聘——开始-->
+  {eyou:channelartlist typeid='23'}
+  <section>
+    <div class="subject"> <span class="more"><a href="{eyou:field name='typeurl' /}">更多>></a></span><b>{eyou:field name='typename' /}</b> </div>
+    <div class="clear"></div>
+    <div class="job_list">
+      <ul>
+        {eyou:arclist row='4' titlelen='30' addfields='gzdd,xzdy'}
+        <li><a href="{$field.arcurl}" title="{$field.title}">{$field.title}</a>
+          <div class="money">{$field.xzdy}<span>{$field.gzdd}</span></div>
+        </li>
+        {/eyou:arclist}  
+      </ul>
+      <div class="clear"></div>
+    </div>
+  </section>
+  {/eyou:channelartlist}
+  <!--人才招聘——结束-->
+</article>
+
+<!--网站公用底部——开始-->
+{eyou:include file="footer.htm" /}
+<!--网站公用底部——结束-->
+<script>
+    var swiper=new Swiper('.swiper-container',{
+        pagination:'.swiper-pagination',
+        paginationClickable:true,
+        spaceBetween:30,
+        centeredSlides:true,
+        autoplay:5000,
+        autoplayDisableOnInteraction:false,
+		loop:true
+    });
+    </script>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>添加收货地址-{eyou:global name='web_name' /}</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    {eyou:static file="users/skin/css/bootstrap.min.css" /}
+    {eyou:static file="users/skin/css/eyoucms.css" /}
+    {eyou:static file="users/skin/css/basic.css" /}
+    {eyou:static file="users/skin/css/shop.css" /}
+    {eyou:include file="users/skin/css/diy_css.htm"/}
+
+    {eyou:static file="/public/static/common/js/jquery.min.js"/}
+    {eyou:static file="/public/plugins/layer-v3.1.0/layer.js"/}
+    {eyou:static file="/public/static/common/js/tag_global.js"/}
+
+    {eyou:static file="/public/static/common/js/shop_add_addr.js"/}
+    <style type="text/css">
+        #theForm .form-group{
+            margin:10px 0px;
+        }
+    </style>
+</head>
+<body>
+<div class="changepass">
+    <form name='theForm' id="theForm" method="post">
+        <div class="modal-body">
+            <div class="form-group">
+                <input type="text" name="consignee" required class="form-control" placeholder="收货人姓名">
+            </div>
+            
+            <div class="form-group">
+                <input type="text" name="mobile" required class="form-control" placeholder="收货人手机">
+            </div>
+            
+            <div class="form-group" style="display: none;">
+                <select class="form-control" name="country">
+                    <option value="1">中国</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <select class="form-control" name="province" id='province' onchange="GetRegionData(this,'province');">
+                    <option value="0">请选择</option>
+                    {eyou:volist name="$eyou.field.Province" id="P_v"}
+                        <option value="{$P_v.id}">{$P_v.name}</option>
+                    {/eyou:volist}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <select class="form-control" name="city" id='city' onchange="GetRegionData(this,'city');">
+                    <option value="0">请选择</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <select class="form-control" name="district" id='district'>
+                    <option value="0">请选择</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <textarea class="form-control" rows="3" name="address" placeholder="收货详情地址"></textarea>
+            </div>
+        </div>
+        <input type="hidden" id="types" value="{$eyou.field.types}">
+        <input type="hidden" id="GetRegionDataS" value="{eyou:url link='user/Shop/get_region_data'/}">
+        <input type="hidden" id="ShopAddAddress" value="{eyou:url link='user/Shop/shop_add_address'/}">
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" onclick="AddAddress();">确定</button>
+        </div>
+    </form>
+</div>
+
+<!-- 添加收货地址模板,需保留,可自行修改样式 -->
+<div style="display: none" id="divhtml">
+    {eyou:if condition="'order' == $eyou.field.types and empty($eyou.field.addr_num)"}
+        <input type="hidden" name="#name#" id="#id#" value="#value#">
+    {/eyou:if}
+    <li class="m-t-10" id="#ul_li_id#">
+        <a class="list-group-item addr-list hover" href="javascript:void(0)" {eyou:eq name="$eyou.field.types" value="order"} onclick="#selected#" {/eyou:eq}>
+            <div class="btn-group-xs" style="float: right;">
+                {eyou:eq name="$eyou.field.types" value="list"}
+                    <span onclick="#setdefault#">设为默认</span>
+                {/eyou:eq}
+                <button type="button" class="btn btn-outline btn-default addr-set-edit" onclick="#shopeditaddr#">
+                    <i class="icon wb-edit m-0" aria-hidden="true"></i>
+                </button>
+                <button type="button" class="btn btn-outline btn-default addr-set-edit" onclick="#shopdeladdr#">
+                    <i class="fa fa-close"></i>
+                </button>
+            </div>
+            <h4 class="list-group-item-heading" id="#consigneeid#">
+                #consignee#
+            </h4>
+            <p class="list-group-item-text m-b-5 addr-info" id="#mobileid#">
+                #mobile#
+            </p>
+            <p class="list-group-item-text addr-info" id="#infoid#">
+                #info#
+            </p>
+            <p class="list-group-item-text addr-info" id="#addressid#">
+                #address#
+            </p>
+        </a>
+    </li>
+</div>
+</body>
+</html>

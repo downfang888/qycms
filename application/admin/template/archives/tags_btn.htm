@@ -1,0 +1,112 @@
+<!-- 扩展 -->
+<!--     <div class="fbutton" style="float: none;">
+        <a href="javascript:void(0);" onclick="jump_is_release();">
+            <div class="add">
+                <input type="hidden" name="is_release" value="{$Request.param.is_release}">
+                {if condition="1 == $Request.param.is_release"}
+                <span><i class="fa fa-list"></i>全部文档</span>
+                {else /}
+                <span><i class="fa fa-send"></i>投稿文档</span>
+                {/if}
+            </div>
+        </a>
+    </div> -->
+
+    {eq name="$Think.const.CONTROLLER_NAME.'@add'|is_check_access" value="1"}
+        <div class="fbutton" style="float: none;">
+            <a href="{gt name="$Request.param.typeid" value="0"}{:url($Think.const.CONTROLLER_NAME.'/add', ['channel'=>$Request.param.channel, 'typeid'=>$Request.param.typeid])}{else /}javascript:quick_release();{/gt}">
+                <div class="add">
+                    <span><i class="fa fa-plus"></i>发布文档</span>
+                </div>
+            </a>
+        </div>
+    {/eq}
+
+    {eq name="'Tags@index'|is_check_access" value="1"}
+        <div class="fbutton" style="float: none; display: none;">
+            <a href="javascript:void(0);" onClick="tags_list();">
+                <div class="add">
+                    <span><i class="fa fa-tag"></i>TAG标签管理</span>
+                </div>
+            </a>
+        </div>
+        <script type="text/javascript">
+            function tags_list(obj)
+            {
+                var url = "{:url('Tags/index')}";
+                //iframe窗
+                layer.open({
+                    type: 2,
+                    title: 'TAG标签管理',
+                    fixed: true, //不固定
+                    shadeClose: false,
+                    shade: 0.3,
+                    maxmin: true, //开启最大化最小化按钮
+                    area: ['80%', '80%'],
+                    content: url
+                });
+            }
+        </script>
+    {/eq}
+    
+    {php}
+        $users_open_release = getUsersConfigData('users.users_open_release');
+        $web_users_switch = tpCache('web.web_users_switch');
+    {/php}
+    <div class="sDiv2">  
+        <select name="flag" class="select" style="margin:0px 5px;">
+            <option value="">--属性--</option>
+            <option value="is_head" {eq name="$Request.param.flag" value="is_head"}selected{/eq}>头条</option>
+            <option value="is_recom" {eq name="$Request.param.flag" value="is_recom"}selected{/eq}>推荐</option>
+            <option value="is_special" {eq name="$Request.param.flag" value="is_special"}selected{/eq}>特荐</option>
+            <option value="is_b" {eq name="$Request.param.flag" value="is_b"}selected{/eq}>加粗</option>
+            <option value="is_litpic" {eq name="$Request.param.flag" value="is_litpic"}selected{/eq}>图片</option>
+            <option value="is_jump" {eq name="$Request.param.flag" value="is_jump"}selected{/eq}>跳转</option>
+            {if condition='$users_open_release == 1 AND $web_users_switch == 1'}
+            <option value="is_release" {eq name="$Request.param.flag" value="is_release"}selected{/eq}>投稿</option>
+            {/if}
+        </select>
+    </div>
+<!-- 扩展 -->
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#searchForm select[name=flag]').change(function(){
+                $('#searchForm').submit();
+            });
+        });
+
+        function jump_is_release()
+        {
+            var is_release = $('#searchForm input[name=is_release]').val();
+            if (1 == is_release) {
+                $('#searchForm input[name=is_release]').val('');
+            } else {
+                $('#searchForm input[name=is_release]').val('1');
+            }
+            $('#searchForm').submit();
+        }
+
+        function quick_release()
+        {
+            //iframe窗
+            layer.open({
+                type: 2,
+                title: '快捷发布文档',
+                fixed: true, //不固定
+                shadeClose: false,
+                shade: 0.3,
+                maxmin: true, //开启最大化最小化按钮
+                area: ['600px', '520px'],
+                content: "//{$Request.host}{$Request.baseFile}?m=admin&c=Archives&a=release&iframe=2&lang={$Request.param.lang}",
+                success: function(layero, index){
+                    // var body = layer.getChildFrame('body', index);
+                    // var gourl = $('.curSelectedNode').attr('href');
+                    // if (!$.trim(gourl)) {
+                    //     gourl = "{:url('Archives/index_archives')}";
+                    // }
+                    // body.find('input[name=gourl]').val(gourl);
+                }
+            });
+        }
+    </script>

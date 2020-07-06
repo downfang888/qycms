@@ -1,0 +1,13 @@
+<ul class="tb-nav">
+	{eyou:eq name='$is_release' value='1'}
+    <li>
+    	<a href="{eyou:url link='user/UsersRelease/article_add'/}" {if condition="in_array($Think.const.ACTION_NAME, ['article_add','article_edit'])"} class="current" {/if}>文章发布</a>
+    </li>
+    {/eyou:eq}
+
+    <li>
+        <a href="{eyou:url link='user/UsersRelease/release_centre' vars='list=1'/}" {eq name='$Method' value='release_centre'} class="current" {/eq}>
+            投稿列表
+        </a>
+    </li>
+</ul>

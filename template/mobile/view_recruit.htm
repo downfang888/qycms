@@ -1,0 +1,148 @@
+<!doctype html>
+<html>
+<head>
+<!--此模板为自定义新增招聘模型详情模板-->
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="renderer" content="webkit">
+<meta http-equiv="Cache-Control" content="no-siteapp"/>
+<!--页面seo标题-->
+<title>{$eyou.field.seo_title}</title>
+<!--页面seo描述-->
+<meta name="description" content="{$eyou.field.seo_description}" />
+<!--页面seo关键词-->
+<meta name="keywords" content="{$eyou.field.seo_keywords}" />
+<!--网站地址栏图标-->
+<link href="{eyou:global name='web_cmspath' /}/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+{eyou:static file="skin/css/amazeui.min.css" /}
+{eyou:static file="skin/css/app.css" /}
+{eyou:static file="skin/js/jquery.min.js" /}
+{eyou:static file="skin/js/amazeui.min.js" /}
+{eyou:static file="skin/js/app.js" /}
+</head>
+<body>
+<!--网站公用头部——开始-->
+{eyou:include file="header.htm" /}
+<!--网站公用头部——结束-->
+<article>
+  <section>
+    <div class="job_show">
+      <!--文章标题-->
+      <h1>{$eyou.field.title}</h1>
+      <div class="info">
+        <ul>
+          <li><span>地点：</span>{$eyou.field.gzdd}</li>
+          <li><span>性质：</span>{$eyou.field.gzxz}</li>
+          <li><span>学历：</span>{$eyou.field.xlyq}</li>
+          <li><span>年限：</span>{$eyou.field.gznx}</li>
+          <li><span>薪资：</span>{$eyou.field.xzdy}</li>
+          <li><span>人数：</span>{$eyou.field.zprs}</li>
+          <li><span>日期：</span>{$eyou.field.add_time|MyDate='Y-m-d',###}</li>
+          <li><span>浏览：</span>{eyou:arcclick /}</li>
+        </ul>
+      </div>
+      <div class="tags">
+        {eyou:type typeid="6"}
+        <div class="action"><a onclick="showdiv();">{$field.typename}</a></div>
+        {/eyou:type}
+        {eyou:notempty name='$eyou.field.tags'}
+        标签:{eyou:tag sort='now' getall='0' row='100'} <a href="{$field.link}"  {$field.target}>{$field.tag}</a> {/eyou:tag}
+        {/eyou:notempty}
+        </div>
+    </div>
+  </section>
+  <section>
+    <div class="clear"></div>
+    <div class="job_show">
+      <div class="intro">
+       <!--文章主体——自定义字段-->
+        {$eyou.field.nnxq} 
+      </div>
+      <!--上下篇——开始-->
+      <div class="prenext"> 
+        <!--上一篇--> 
+        {eyou:prenext get='pre'} <a href="{$field.arcurl}" title="{$field.title}" class="pre"> {eyou:lang name='sys11' /}</span> </a> {eyou:else /} <a class="pre">{eyou:lang name='sys10' /}</a> {/eyou:prenext} 
+        <!--下一篇--> 
+        {eyou:prenext get='next'} <a href="{$field.arcurl}" title="{$field.title}" class="next"> {eyou:lang name='sys12' /} </span> </a> {eyou:else /} <a class="next">{eyou:lang name='sys10' /}</a> {/eyou:prenext} 
+      </div>
+      <!--上下篇——结束-->
+    </div>
+  </section>
+  <section>
+    <div class="subject"> <b>其他职位</b> </div>
+    <div class="clear"></div>
+    <ul class="home_news">
+     {eyou:arclist orderby='rand' titlelen='30' row='4'}
+      <li><span class="date">{$field.add_time|MyDate='m-d',###}</span>
+        <div class="right"><a href="{$field.arcurl}" title="{$field.title}" class="text-hide">{$field.title}</a>
+          <p class="text-hide">{$field.seo_description|html_msubstr=###,0,30,true}</p>
+        </div>
+      </li>
+     {/eyou:arclist} 
+    </ul>
+    <div class="clear"></div>
+  </section>
+</article>
+
+<!--网站公用底部——开始-->
+{eyou:include file="footer.htm" /}
+<!--网站公用底部——结束-->
+<div id="bg" ></div>
+<div id="show">
+<div class="job-popup">
+	<div class="tit">在线应聘 <input id="btnclose" type="button" value="×" onclick="hidediv();"> </div>
+	 {eyou:guestbookform typeid='6' type='default'}
+         <form method="POST" class="am-form am-form-horizontal form-add" action="{$field.action}" {$field.formhidden} onsubmit="{$field.submit}">
+		  <dl>
+			<dt>{$field.itemname_4}</dt>
+			<dd><input type="text" value="{$eyou.field.title}" name="{$field.attr_4}" id="attr_4"></dd>
+		  </dl>
+		   <dl>
+			<dt>{$field.itemname_5}</dt>
+			<dd><input type="text" value="" name="{$field.attr_5}" id="attr_5"></dd>
+		  </dl>
+		  <dl>
+			<dt>{$field.itemname_6}</dt>
+			<dd>
+             <select name="{$field.attr_6}" id="attr_6">
+               <option value="">请选择性别</option>
+               {eyou:volist name='$field.options_6' id='vo'}
+               <option value="{$vo.value}">{$vo.value}</option>
+			   {/eyou:volist}
+             </select>
+            </dd>
+		  </dl>
+		  <dl>
+			<dt>{$field.itemname_16}</dt>
+			<dd><input type="text" value="" name="{$field.attr_16}" id="attr_16"></dd>
+		  </dl>
+		  <dl>
+			<dt>{$field.itemname_20}</dt>
+			<dd><textarea name="{$field.attr_20}" id="attr_20" rows="3" cols="50"></textarea></dd>
+		  </dl>
+		  <dl>
+			<dt></dt>
+			<dd><button type="submit" class="bt">提交</button></dd>
+		  </dl>
+		  {$field.hidden}
+		</form>
+       {/eyou:guestbookform} 
+
+</div>
+</div>
+
+
+<script type="text/javascript">
+  //招聘弹出框 
+  function showdiv() {            
+		document.getElementById("bg").style.display ="block";
+		document.getElementById("show").style.display ="block";
+	}
+  function hidediv() {
+		document.getElementById("bg").style.display ='none';
+		document.getElementById("show").style.display ='none';
+	}
+</script>
+</body>
+</html>

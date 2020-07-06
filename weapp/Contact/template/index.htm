@@ -1,0 +1,157 @@
+{include file="header.htm" /}
+<body style="background-color: #FFF; overflow: auto;">
+<div id="toolTipLayer" style="position: absolute; z-index: 9999; display: none; visibility: visible; left: 95px; top: 573px;"></div>
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+<div class="page">
+    {include file="bar.htm" /}
+    <form class="form-horizontal" id="post_form" action="{:weapp_url('Contact/Contact/save')}" method="post">
+        <div class="ncap-form-default">
+            <dl class="row">
+                <dt class="tit">
+                    <label>调用方式</label>
+                </dt>
+                <dd class="opt">
+                    <div class="onoff">
+                        <label for="tag_weapp1" class="cb-enable {if condition='!isset($contact.data.tag_weapp) || $contact.data.tag_weapp eq 1'}selected{/if}">自动调用</label>
+                        <label for="tag_weapp0" class="cb-disable {if condition='isset($contact.data.tag_weapp) && $contact.data.tag_weapp eq 2'}selected{/if}">手工调用</label>
+                        <input id="tag_weapp1" name="tag_weapp" value="1" type="radio" {if condition="!isset($contact.data.tag_weapp) || $contact.data.tag_weapp eq 1"} checked="checked"{/if}>
+                        <input id="tag_weapp0" name="tag_weapp" value="2" type="radio" {if condition="isset($contact.data.tag_weapp) && $contact.data.tag_weapp eq 2"} checked="checked"{/if}>
+                    </div>
+                    <p class="notic">自动调用会默认绑定weapp模板标签，手工调用请参考使用指南的调用方法。</p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label>显示方式</label>
+                </dt>
+                <dd class="opt">
+                    <div class="onoff">
+                        <label for="is_open1" class="cb-enable {if condition='isset($contact.data.is_open) && $contact.data.is_open eq 1'}selected{/if}">展开</label>
+                        <label for="is_open0" class="cb-disable {if condition='!isset($contact.data.is_open) || $contact.data.is_open eq 0'}selected{/if}">收缩</label>
+                        <input id="is_open1" name="is_open" value="1" type="radio" {if condition="isset($contact.data.is_open) && $contact.data.is_open eq 1"} checked="checked"{/if}>
+                        <input id="is_open0" name="is_open" value="0" type="radio" {if condition="!isset($contact.data.is_open) || $contact.data.is_open eq 0"} checked="checked"{/if}>
+                    </div>
+                    <p class="notic"></p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label for="top_height">距离顶部高度</label>
+                </dt>
+                <dd class="opt">
+                    <input type="text" name="top_height" value="{$contact.data.top_height|default='150'}" id="top_height" class="input-txt"> px
+                    <span class="err"></span>
+                    <p class=""></p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label for="qq_number">QQ号码</label>
+                </dt>
+                <dd class="opt">
+                    <input type="text" name="qq_number" value="{$contact.data.qq_number|default='10000'}" id="qq_number" class="input-txt">
+                    <span class="err"></span>
+                    <p class=""></p>
+                </dd>
+            </dl>
+            <dl class="row"><dt class="tit"><label><b>电话一设置</b></label></dt></dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label for="description_first">电话标题</label>
+                </dt>
+                <dd class="opt">
+                    <input type="text" name="description_first" placeholder="" id="description_first" value="{$contact.data.description_first|default='售前咨询'}" class="input-txt">
+                    <span class="err"></span>
+                    <p class=""></p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label for="telephone_first">电话号码</label>
+                </dt>
+                <dd class="opt">
+                    <input type="text" name="telephone_first" placeholder="" id="telephone_first" value="{$contact.data.telephone_first|default='020-00000000'}" class="input-txt">
+                    <span class="err"></span>
+                    <p class=""></p>
+                </dd>
+            </dl>
+            <dl class="row"><dt class="tit"><label><b>电话二设置</b></label></dt></dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label for="description_second">电话标题</label>
+                </dt>
+                <dd class="opt">
+                    <input type="text" name="description_second" placeholder="" id="description_second" value="{$contact.data.description_second|default='售后服务'}" class="input-txt">
+                    <span class="err"></span>
+                    <p class=""></p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label for="telephone_second">电话号码</label>
+                </dt>
+                <dd class="opt">
+                    <input type="text" name="telephone_second" placeholder="" id="telephone_second" value="{$contact.data.telephone_second|default='020-88888888'}" class="input-txt">
+                    <span class="err"></span>
+                    <p class=""></p>
+                </dd>
+            </dl>
+            <dl class="row"><dt class="tit"><label><b>微信设置</b></label></dt></dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label for="wechat_logo_local">上传二维码</label>
+                </dt>
+                <dd class="opt">
+                    <div class="input-file-show div_wechat_logo_local" {neq name="$contact.data.is_remote" value="0"}style="display: none;"{/neq}>
+                        <span class="show">
+                            <a id="img_a_local" target="_blank" class="nyroModal" rel="gal" href="{$contact.data.wechat_logo_local|default='javascript:void(0);'}">
+                                <i id="img_i_local" class="fa fa-picture-o" {notempty name="$contact.data.wechat_logo_local"}onmouseover="layer_tips=layer.tips('<img src={$contact.data.wechat_logo_local|default=''} class=\'layer_tips_img\'>',this,{tips: [1, '#fff']});"{/notempty} onmouseout="layer.close(layer_tips);"></i>
+                            </a>
+                        </span>
+                        <span class="type-file-box">
+                            <input type="text" id="wechat_logo_local" name="wechat_logo_local" value="{$contact.data.wechat_logo_local|default=''}" class="type-file-text">
+                            <input type="button" name="button" id="button1" value="选择上传..." class="type-file-button">
+                            <input class="type-file-file" onClick="GetUploadify(1,'','weapp','img_call_back','{:U('Uploadify/upload')}')" size="30" hidefocus="true" nc_type="change_site_logo"
+                                 title="点击前方预览图可查看大图，点击按钮选择文件并提交表单后上传生效">
+                        </span>
+                    </div>
+                    <input type="text" id="wechat_logo_remote" name="wechat_logo_remote" value="{$contact.data.wechat_logo_remote|default=''}" placeholder="http://" class="input-txt" {neq name="$contact.data.is_remote" value="1"}style="display: none;"{/neq}>
+                    &nbsp;
+                    <label><input type="checkbox" name="is_remote" id="is_remote" value="1" {eq name="$contact.data.is_remote" value="1"}checked="checked"{/eq} onClick="clickRemote(this, 'wechat_logo');">远程图片</label>
+                    <span class="err"></span>
+                    <p class="notic">建议尺寸 200 * 200 (像素) 的png|gif|jpg等图片</p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label for="wechat">微信底部文案</label>
+                </dt>
+                <dd class="opt">
+                    <input type="text" name="wechat" value="{$contact.data.wechat|default='关注公众号'}" id="wechat" class="input-txt">
+                    <span class="err"></span>
+                    <p class=""></p>
+                </dd>
+            </dl>
+            <div class="bot">
+                <input type="hidden" name="code" value="{$contact.code|default=$weappInfo.code}">
+                <a href="JavaScript:void(0);" onclick="checkForm();" class="ncap-btn-big ncap-btn-green" id="submitBtn">确认提交</a>
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+    // 判断输入框是否为空
+    function checkForm(){
+        layer_loading('正在处理');
+        $('#post_form').submit();
+    }
+    
+    function img_call_back(fileurl_tmp)
+    {
+        $("#wechat_logo_local").val(fileurl_tmp);
+        $("#img_a_local").attr('href', fileurl_tmp);
+        $("#img_i_local").attr('onmouseover', "layer_tips=layer.tips('<img src="+fileurl_tmp+" class=\\'layer_tips_img\\'>',this,{tips: [1, '#fff']});");
+    }
+</script>
+{include file="footer.htm" /}

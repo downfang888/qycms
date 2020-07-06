@@ -1,0 +1,59 @@
+{eq name="$Think.const.CONTROLLER_NAME.'@add'|is_check_access" value="1"}
+    <div class="fbutton" style="float: none;">
+        <a href="{:url('ShopProduct/add')}">
+            <div class="add">
+                <span><i class="fa fa-plus"></i>发布商品</span>
+            </div>
+        </a>
+    </div>
+{/eq}
+
+<div class="sDiv2">  
+    <select name="typeid" class="select" style="margin:0px 5px;">
+        <option value="">--所有栏目--</option>
+        {$arctype_html}
+    </select>
+</div>
+<!-- 扩展 -->
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#searchForm select[name=typeid]').change(function(){
+            $('#searchForm').submit();
+        });
+    });
+
+    function jump_is_release()
+    {
+        var is_release = $('#searchForm input[name=is_release]').val();
+        if (1 == is_release) {
+            $('#searchForm input[name=is_release]').val('');
+        } else {
+            $('#searchForm input[name=is_release]').val('1');
+        }
+        $('#searchForm').submit();
+    }
+
+    function quick_release()
+    {
+        //iframe窗
+        layer.open({
+            type: 2,
+            title: '快捷发布文档',
+            fixed: true, //不固定
+            shadeClose: false,
+            shade: 0.3,
+            maxmin: true, //开启最大化最小化按钮
+            area: ['600px', '520px'],
+            content: "//{$Request.host}{$Request.baseFile}?m=admin&c=Archives&a=release&iframe=2&lang={$Request.param.lang}",
+            success: function(layero, index){
+                // var body = layer.getChildFrame('body', index);
+                // var gourl = $('.curSelectedNode').attr('href');
+                // if (!$.trim(gourl)) {
+                //     gourl = "{:url('Archives/index_archives')}";
+                // }
+                // body.find('input[name=gourl]').val(gourl);
+            }
+        });
+    }
+</script>

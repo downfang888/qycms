@@ -1,0 +1,69 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=0">
+<meta name="renderer" content="webkit">
+<meta http-equiv="Cache-Control" content="no-siteapp"/>
+<!--搜索页seo标题-->
+<title>搜索页_{$eyou.field.keywords}_{eyou:global name="web_name" /}</title>
+<!--搜索页seo关键词-->
+<meta name="description" content="" />
+<!--搜索页seo关键词-->
+<meta name="keywords" content="" />
+<!--网站地址栏图标-->
+<link href="{eyou:global name='web_cmspath' /}/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+{eyou:static file="skin/css/amazeui.min.css" /}
+{eyou:static file="skin/css/app.css" /}
+<!--[if lt IE 9]>
+<div class="notsupport">
+	<h1>:( 非常遗憾</h1>
+	<h2>您的浏览器版本太低，请升级您的浏览器</h2>
+</div>
+<![endif]-->
+{eyou:static file="skin/js/jquery.min.js" /}
+{eyou:static file="skin/js/amazeui.min.js" /}
+{eyou:static file="skin/js/app.js" /}
+</head>
+
+<body>
+<!--网站公用头部——开始-->
+{eyou:include file="header.htm" /}
+<!--网站公用头部——结束-->
+<div class="bg_inner  arctype_id_search" >
+  <div class="banner_inner width" >
+    <div class="con">搜索结果<span>Search Result</span>
+    </div>
+  </div>
+</div>
+<div class="width inner_container">
+  <!--当前位置调用-->
+<ol class="am-breadcrumb">
+    <li><a href="{eyou:global name='web_cmsurl' /}" class="am-icon-home">首页</a></li>
+    <li><a>站内搜索</a></li>
+    <li class="am-active">{$eyou.field.keywords}</li>
+  </ol>
+  <!--搜索关键词调用-->
+  <h1>{eyou:lang name='sys7' /} <strong>{$eyou.field.keywords}</strong> {eyou:lang name='yybl12' /}</h1>
+  <ul class="news_list mt20">
+   {eyou:list titlelen='60' pagesize='8'}
+    <li><span class="date">{$field.add_time|MyDate='d',###}<em>{$field.add_time|MyDate='Y-m',###}</em></span>
+      <div><a href="{$field.arcurl}" title="{$field.title}">{$field.title}</a>{$field.seo_description|html_msubstr=###,0,120,true}</div>
+    </li>
+   {/eyou:list} 
+  </ul>
+  <div class="clear"></div>
+  <!--列表分页——开始-->
+  <div class="pagelist">
+    <ul>
+       {eyou:pagelist listitem='index,pre,pageno,next,end' listsize='2' /}
+    </ul>
+  </div>
+  <!--列表分页——结束-->
+</div>
+<!--网站公用底部——开始-->
+{eyou:include file="footer.htm" /}
+<!--网站公用底部——结束-->
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=0">
+<meta name="renderer" content="webkit">
+<meta http-equiv="Cache-Control" content="no-siteapp"/>
+<!--页面seo标题-->
+<title>{$eyou.field.seo_title}</title>
+<!--页面seo描述-->
+<meta name="description" content="{$eyou.field.seo_description}" />
+<!--页面seo关键词-->
+<meta name="keywords" content="{$eyou.field.seo_keywords}" />
+<!--网站地址栏图标-->
+<link href="{eyou:global name='web_cmspath' /}/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+{eyou:static file="skin/css/amazeui.min.css" /}
+{eyou:static file="skin/css/app.css" /}
+<!--[if lt IE 9]>
+<div class="notsupport">
+	<h1>:( 非常遗憾</h1>
+	<h2>您的浏览器版本太低，请升级您的浏览器</h2>
+</div>
+<![endif]--> 
+{eyou:static file="skin/js/jquery.min.js" /}
+{eyou:static file="skin/js/amazeui.min.js" /}
+{eyou:static file="skin/js/app.js" /}
+</head>
+<body>
+<!--网站公用头部——开始-->
+{eyou:include file="header.htm" /}
+<!--网站公用头部——结束-->
+<!--网站公用自定义文件——开始-->
+{eyou:include file="banner.htm" /}
+<!--网站公用自定义文件——结束-->
+<div class="width inner_container">
+  <!--当前位置调用-->
+<ol class="am-breadcrumb">
+    <li><i class="am-icon-home"></i>{eyou:position style="" /}</li>  
+  </ol>
+  
+  <div class="home_nav">
+    <ul id="subnav">
+     <!--当前栏目下二级栏目调用-->
+      {eyou:channel type="first" row='10' currentstyle="hover"}
+      {eyou:eq name='$eyou.field.grade' value='2'}
+                {eyou:type typeid='$eyou.field.typeid' id='field1'}
+                    {eyou:eq name='$field1.parent_id' value='$field.id'}
+                        {eyou:assign name='$field.currentstyle' value='hover' /} <!--标签value='hover'hover-->
+                    {/eyou:eq}
+                {/eyou:type}
+            {/eyou:eq}
+      <li class="{$field.currentstyle}"><a href="{$field.typeurl}" title="{$field.typename}">{$field.typename}</a>
+       {eyou:notempty name="$field.children"}
+        <dl>
+         <!--当前栏目下三级栏目调用-->
+          {eyou:channel name="$field.children" row='10' id="field2"}
+          <dt><a href="{$field2.typeurl}" title="{$field2.typename}">{$field2.typename}</a> </dt>
+          {/eyou:channel}
+        </dl>
+       {/eyou:notempty} 
+      </li>
+      {/eyou:channel}
+    </ul>
+    <div class="clear"></div>
+  </div>
+  <!--筛选——开始-->
+  <div class="filter">
+   {eyou:screening id='field' currentstyle='hover' alltxt='全部' }
+    {eyou:volist name='$field.list' id='vo'}
+    <dl>
+      <dd>{$vo.title}：</dd>
+      <dt> 
+       {eyou:volist name='$vo.dfvalue' id='val'}
+        <a {$val.onClick} class="{$val.currentstyle}">{$val.name}</a>
+       {/eyou:volist}
+      </dt>
+      <div class="clear"></div>
+    </dl>
+    {/eyou:volist}
+    {$field.hidden}
+   {/eyou:screening}  
+  </div>
+  <!--筛选——结束-->
+  <div class="home_pro">
+    <ul>
+      {eyou:list titlelen='20' pagesize='12'}
+      <li><a href="{$field.arcurl}">
+        <div><img src="{$field.litpic}" alt="{$field.title}" height="279"></div>
+        <p class="title">{$field.title}</p>
+        <p class="price"><span>点击数：{$field.click} </span>¥ {$field.users_price} </p>
+        </a></li>
+       {/eyou:list}  
+    </ul>
+    <div class="clear"></div>
+  </div>
+  <!--列表分页——开始-->
+  <div class="pagelist">
+    <ul>
+       {eyou:pagelist listitem='index,pre,pageno,next,end' listsize='2' /}
+    </ul>
+  </div>
+  <!--列表分页——结束-->
+</div>
+<!--网站公用底部——开始-->
+{eyou:include file="footer.htm" /}
+<!--网站公用底部——结束-->
+</body>
+</html>

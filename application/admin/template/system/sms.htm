@@ -1,0 +1,191 @@
+<form class="form-horizontal" id="postSmsForm" method="post">
+    <div class="hDiv" id="sms">
+        <div class="hDivBox">
+            <table cellspacing="0" cellpadding="0" style="width: 100%">
+                <thead>
+                <tr>
+                    <th class="sign w10" axis="col0">
+                        <div class="tc"></div>
+                    </th>
+                    <th abbr="article_title" axis="col3" class="w10">
+                        <div id="anchor-sms" class="tc">
+                            {notempty name="$is_eyou_authortoken"}
+                                <i class="anchor-icon anchor-icon-biao" title="限商业授权以上可用"></i>
+                            {/notempty}
+                            短信配置
+                        </div>
+                    </th>
+                    <th abbr="ac_id" axis="col4">
+                        <div class=""></div>
+                    </th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+    <div class="ncap-form-default">
+        <dl class="row">
+            <dt class="tit">
+                <label for="sms_platform">选择短信平台</label>
+            </dt>
+            <dd class="opt">
+                <select name="sms_platform" id="sms_platform">
+                    <option value="1" {if condition="isset($sms.sms_platform) && $sms.sms_platform eq 1"}selected="selected"{/if}>阿里云短信</option>
+                </select>
+                <p class="notic"></p>
+            </dd>
+        </dl>
+        <dl class="row">
+            <dt class="tit">
+                <label for="smtp_server">发送手机内容</label>
+            </dt>
+            <dd class="opt">
+                [<a href="javascript:void(0);" onclick="sms_tpl_list();">配置模板</a>]
+                <p class=""></p>
+            </dd>
+        </dl>
+        <dl class="row">
+            <dt class="tit">
+                <em>*</em>
+                <label for="sms_appkey">短信平台[appkey]</label>
+            </dt>
+            <dd class="opt">
+                <input id="sms_appkey" name="sms_appkey" value="{$sms.sms_appkey|default=''}" class="input-txt" type="text"/>
+                <p class="notic">短信平台配置appkey/keyid</p>
+            </dd>
+        </dl>
+        <dl class="row">
+            <dt class="tit">
+                <em>*</em>
+                <label for="sms_secretkey">短信平台[secretKey]</label>
+            </dt>
+            <dd class="opt">
+                <input id="sms_secretkey" name="sms_secretkey" value="{$sms.sms_secretkey|default=''}" class="input-txt" type="text"/>
+                <p class="notic">短信平台配置secretKey</p>
+            </dd>
+        </dl>
+        <dl class="row">
+            <dt class="tit"><em>*</em>接收的手机号码</dt>
+            <dd class="opt">
+                <input value="{$sms.sms_test_mobile|default=''}" name="sms_test_mobile" id="sms_test_mobile" class="input-txt" type="text">
+                <input value="测试发送" class="input-btn" onclick="sendMobile();" type="button">
+                <p class="notic"></p>
+            </dd>
+        </dl>
+        <dl class="row">
+            <dt class="tit">短信提醒</dt>
+            <dd class="opt">
+                <ul class="nc-row ncap-waybill-list">
+                    <li style="width: 100%;">
+                        <label class="label">
+                            <input class="check" type="checkbox" name="sms_shop_order_pay" {if condition="!empty($sms.sms_shop_order_pay)"} value="1" checked="checked" {/if}><span onmouseover="layer_tips = layer.tips('对管理员发送邮件提醒', this, {time:100000});" onmouseout="layer.close(layer_tips);">订单付款</span>
+                        </label>
+                        &nbsp; &nbsp;
+                        <label class="label">
+                            <input class="check" type="checkbox" name="sms_shop_order_send" {if condition="!empty($sms.sms_shop_order_send)"} value="1" checked="checked" {/if}><span onmouseover="layer_tips = layer.tips('对用户发送邮件提醒', this, {time:100000});" onmouseout="layer.close(layer_tips);">订单发货</span>
+                        </label>
+                    </li>
+                </ul>
+            </dd>
+        </dl>
+        <dl class="row">
+            <div class="bot" style="padding-bottom:0px;">
+                <a href="JavaScript:void(0);" onclick="submit_sms();" class="ncap-btn-big ncap-btn-green">确认提交</a>
+                &nbsp;<a href="JavaScript:void(0);" onclick="click_to_eyou_1575506523('https://www.eyoucms.com/plus/view.php?aid=8754','短信配置教程')" style="font-size: 12px;padding-left: 10px;position:absolute;top: 30px">不会配置？</a>
+            </div>
+        </dl>
+    </div>
+</form>
+
+<script type="text/javascript">
+    function submit_sms(){
+        if ($('#postSmsForm input[name="sms_appkey"]').val() == '') {
+            showErrorMsg('请填写短信平台[appkey]！');
+            $('#postSmsForm input[name=sms_appkey]').focus();
+            return false;
+        }
+        if ($('#postSmsForm input[name="sms_secretkey"]').val() == '') {
+            showErrorMsg('请填写短信平台[secretKey]！');
+            $('#postSmsForm input[name=sms_secretkey]').focus();
+            return false;
+        }
+        if ($('#postSmsForm input[name="sms_test_mobile"]').val() == '') {
+            showErrorMsg('接收的手机号码不能为空！');
+            $('#postSmsForm input[name=sms_test_mobile]').focus();
+            return false;
+        }
+
+        layer_loading("正在处理");
+        $.ajax({
+            url: "{:url('System/sms', ['_ajax'=>1])}",
+            type: 'POST',
+            dataType: 'JSON',
+            data: $('#postSmsForm').serialize(),
+            success: function(res){
+                layer.closeAll();
+                if (1 == res.code) {
+                    layer.msg(res.msg, {icon: 1, time: 1000});
+                    return false;
+                } else {
+                    var icon = 2;
+                    try{
+                        if (res.data.icon) {
+                            icon = res.data.icon;
+                        }
+                    }catch(e){}
+                    layer.alert(res.msg, {icon: icon, title:false});
+                    return false;
+                }
+            },
+            error: function(e){
+                layer.closeAll();
+                showErrorMsg(ey_unknown_error);
+                return false;
+            }
+        });
+    }
+
+    function sendMobile() {
+        var mobile = $('#sms_test_mobile').val();
+        if (mobile == '') {
+            showErrorMsg('接收的手机号码不能为空！');
+            $('#postSmsForm input[name=sms_test_mobile]').focus();
+            return false;
+        } else {
+            var loading = layer_loading('发送中');
+            $.ajax({
+                type: "post",
+                data: $('#postSmsForm').serialize(),
+                dataType: 'json',
+                url: "{:url('System/send_mobile')}",
+                success: function (res) {
+                    layer.closeAll();
+                    if (res.code == 1) {
+                        layer.msg('发送成功', {icon: 1, time:1000});
+                    } else {
+                        layer.msg(res.msg, {icon: 1, time: 1000});
+                    }
+                },
+                error: function(){
+                    layer.closeAll();
+                    layer.msg('发送超时，稍后重试~', {icon: 2, time: 1500});
+                }
+            })
+        }
+    }
+
+    function sms_tpl_list() {
+        var url = "{:url('System/sms_tpl')}";
+        //iframe窗
+        layer.open({
+            type: 2,
+            title: '手机短信模板配置',
+            fixed: true, //不固定
+            shadeClose: false,
+            shade: 0.3,
+            maxmin: true, //开启最大化最小化按钮
+            area: ['80%', '80%'],
+            content: url
+        });
+    }
+</script> 

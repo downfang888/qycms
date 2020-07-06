@@ -1,0 +1,33 @@
+<header class="header">
+<!--会员模块——开始-->
+ {eyou:user type='login'}
+  <div class="am-fr"><a  href="{$field.url}" id="{$field.id}" class="am-icon-user am-icon-sm"></a></div>
+ {$field.hidden}
+ {/eyou:user} 
+ <!--会员模块——结束-->
+  <div class="am-fl"><a href="javascript:;" class="am-icon-bars am-icon-sm" data-am-offcanvas="{target:'#nav_top'}"></a></div>
+  <!--网站LOGO——开始-->
+  <div class="logo"><a href="{eyou:global name='web_cmsurl' /}"><img src="{eyou:global name='web_attr_13' /}" alt="{eyou:global name='web_name' /}" /></a></div>
+  <!--网站LOGO——结束-->
+  <div class="clear"></div>
+</header>
+<!--导航——开始-->
+<div class="nav am-offcanvas" id="nav_top">
+  <div class="am-offcanvas-bar">
+    <ul id="collapase-nav">
+      <li><a href="{eyou:global name='web_cmsurl' /}">网站首页</a></li>
+      {eyou:channel type="top" row="60" id="field" currentstyle="hover"}
+      <li class="am-panel">{eyou:notempty name="$field.children"} <span class="am-icon-angle-right" data-am-collapse="{parent:'#collapase-nav', target:'#nav_{$i}'}"></span> {/eyou:notempty}<a href="{$field.typeurl}" title="{$field.typename}">{$field.typename}</a>
+       {eyou:notempty name="$field.children"}
+        <ul class="am-collapse" id="nav_{$i}">
+          {eyou:channel name="$field.children" row="100" id="field2"}
+          <li><a href="{$field2.typeurl}">{$field2.typename}</a> </li>
+          {/eyou:channel}   
+        </ul>
+        {/eyou:notempty}
+      </li>
+      {/eyou:channel}
+    </ul>
+  </div>
+</div>
+<!--导航——结束-->

@@ -1,0 +1,31 @@
+<script language="javascript" src="__WEAPP_TEMPLATE__/skin/js/contact.js"></script>
+<link rel="stylesheet" type="text/css" href="__WEAPP_TEMPLATE__/skin/css/contact.css">
+<div class="main-im" style="top: {$contact.data.top_height|default='150'}px; z-index: 20190828;">
+    <div id="open_im" class="open-im" style="display: {empty name="$contact.data.is_open"}block{else /}none{/empty};">&nbsp;</div>
+    <div class="im_main" id="im_main" style="display: {notempty name="$contact.data.is_open"}block{else /}none{/notempty};">
+        <div id="close_im" class="close-im"><a href="javascript:void(0);" title="点击关闭">&nbsp;</a></div>
+        <a href="http://wpa.qq.com/msgrd?v=3&amp;uin={$contact.data.qq_number|default='10000'}&amp;site=qq&amp;menu=yes" target="_blank"
+           class="im-qq qq-a" title="在线QQ客服">
+            <div class="qq-container"></div>
+            <div class="qq-hover-c"><img class="img-qq" src="__WEAPP_TEMPLATE__/skin/images/qq.png"></div>
+            <span> QQ在线咨询</span></a>
+        <div class="im-tel">
+            <div>{$contact.data.description_first|default='售前咨询'}</div>
+            <div class="tel-num">{$contact.data.telephone_first|default='020-00000000'}</div>
+            <div>{$contact.data.description_second|default='售后服务'}</div>
+            <div class="tel-num">{$contact.data.telephone_second|default='020-88888888'}</div>
+        </div>
+        <div class="im-footer" style="position:relative">
+            <div class="weixing-container">
+                <div class="weixing-show" {notempty name="$contact.data.is_open"}style="display: none";{else /}style="display: block";{/notempty}">
+                    <div class="weixing-txt">微信扫一扫<br>{$contact.data.wechat|default='关注公众号'}</div>
+                    <img class="weixing-ma" src="{$contact.data.wechat_logo|default='__WEAPP_TEMPLATE__/skin/images/weixin.png'}">
+                    <div class="weixing-sanjiao"></div>
+                    <div class="weixing-sanjiao-big"></div>
+                </div>
+            </div>
+            <div class="go-top"><a href="javascript:;" title="返回顶部"></a></div>
+            <div style="clear:both"></div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,105 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>{$eyou.field.title}-{eyou:global name='web_name' /}</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <link href="{eyou:global name='web_cmspath'/}/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    {eyou:static file="users/skin/css/basic.css" /}
+    {eyou:static file="users/skin/css/eyoucms.css" /}
+    {eyou:include file="users/skin/css/diy_css.htm" /}
+
+    {eyou:static file="/public/static/common/js/jquery.min.js"/}
+    {eyou:static file="/public/plugins/layer-v3.1.0/layer.js"/}
+    {eyou:static file="users/skin/js/global.js"/}
+</head>
+
+<body class="pay deta">
+<!-- 头部 -->
+{eyou:include file="users/users_header.htm" /}
+<!-- 头部结束 -->
+
+<div class="member-profile ey-member">
+    <div class="container">
+        <div class="member-profile-content">
+            <div class="row">
+
+                <!-- 侧边 -->
+                {eyou:include file="users/users_left.htm" /}
+                <!-- 侧边结束 -->
+
+                <!-- 中部 -->
+                <div class="col-xs-12 col-sm-10 ey-member-index">
+                    <div class="panel panel-default m-b-0" style="min-height: 486px;">
+
+                       <div class="panel-heading">
+                            <strong>{$eyou.field.title}</strong>
+                        </div>
+
+                        <div class="panel-body shop-finance">
+
+                            <div class="row">
+
+                            <div class="clearfix">
+                                <div class="pull-xs-left">
+                                    <label class="control-label">账户余额 : </label>
+                                    <span class="tag tag-lg tag-success radius0" style="line-height:inherit;">￥{$users.users_money}元 </span>
+                             
+                                </div>
+                                <a href="{eyou:url link='user/Pay/pay_account_recharge' /}" class="btn btn-outline btn-success addr-btn btn-squared pull-xs-right">账户充值</a>
+                            </div>
+
+                            <div id="finance-list_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer clearfix">
+                                <table class="dataTable table table-bordered table-hover table-striped w-full m-t-10 no-footer dtr-inline" cellspacing="0" id="finance-list" data-table-ajaxurl="" data-table-pagelength="20" data-plugin="selectable" role="grid" aria-describedby="finance-list_info" >
+                                    <thead>
+                                        <tr role="row">
+                                            <th  style="width: 262px;" class="nber">订单号</th>
+                                            <th  style="width: 200px;">时间</th>
+                                            <th  style="width: 155px;">金额</th>
+                                            <th  style="width: 185px;">类型</th>
+                                            <th  style="width: 185px;">状态</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        {eyou:empty name="list"}
+                                        <tr class="odd">
+                                            <td valign="top" colspan="6" class="dataTables_empty">当前没有消费数据</td>
+                                        </tr>
+                                        {eyou:else/}
+                                            {eyou:volist name="list" id="vo"}
+                                                <tr class="odd">
+                                                    <td class="nber">{$vo.order_number}</td>
+                                                    <td>{$vo.add_time|date='Y-m-d H:i:s',###}</td>
+                                                    <td>
+                                                    {eyou:if condition="0 == $vo.cause_type"}
+                                                        -{$vo.money}
+                                                    {eyou:else /}
+                                                        +{$vo.money}
+                                                    {/eyou:if}
+                                                    </td>
+                                                    <td>{$pay_cause_type_arr[$vo['cause_type']]|default=''}</td>
+                                                    <td>{$pay_status_arr[$vo['status']]|default=''}</td>
+                                                </tr>
+                                            {/eyou:volist}
+                                        {/eyou:empty}
+                                    </tbody>
+                                </table>
+                                {$page}
+                                {eyou:if condition="!empty($pager->totalRows)"}
+                                <div class="fytotal">共{$pager->totalRows}条记录</div>
+                                {/eyou:if}
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 中部结束 -->
+            </div>
+        </div>
+    </div>
+</div>
+
+{eyou:include file="users/users_footer.htm" /}

@@ -1,0 +1,221 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>{$MenuTitle}-{eyou:global name='web_name' /}</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <link href="{eyou:global name='web_cmspath'/}/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    {eyou:static file="users/skin/css/bootstrap.min.css"/}
+    {eyou:static file="users/skin/css/basic.css"/}
+    {eyou:static file="users/skin/css/eyoucms.css"/}
+    {eyou:static file="users/skin/css/shop.css"/}
+    {eyou:static  file="users/skin/css/tb_style.css"/}
+    {eyou:include file="users/skin/css/diy_css.htm"/}
+    
+    {eyou:static file="/public/static/common/js/jquery.min.js"/}
+    {eyou:static file="/public/plugins/layer-v3.1.0/layer.js"/}
+    {eyou:static file="/public/static/common/js/tag_global.js"/}
+</head>
+
+<body class="centre shop">
+<!-- 头部 -->
+{eyou:include file="users/users_header.htm" /}
+<!-- END -->
+<div class="member-profile ey-member">
+    <div class="container">
+        <div class="member-profile-content">
+            <div class="row">
+                <!-- 侧边 -->
+                {eyou:include file="users/users_left.htm" /}
+                <!-- END -->
+                <!-- 中部 -->
+                <div class="col-xs-12 col-sm-10 ey-member-safety" >
+                    <div class="panel m-b-0">
+                        <div class="panel-body ey-member-index ey-member-profile">
+                            <div class="panel panel-default m-b-0 basic">
+                                 <!-- 顶部导航栏 -->
+                                <div class="panel-heading">
+                                    <strong>{$MenuTitle}</strong>
+                                </div>
+                                <!-- END -->  
+                                <div class="tb-body">
+                                    <!-- 导航栏 --> 
+                                    {eyou:include file="users/release_bar.htm" /} 
+                                    <!-- END --> 
+                                    <table class="table" style="word-break:break-all;word-wrap:break-word; ">
+                                        <thead>
+                                            <tr>
+                                                <th class="col-sm-1">ID</th>
+                                                <th class="col-sm-5 tl">文章标题</th>
+                                                <th class="col-sm-2">所属栏目</th>
+                                                <th class="col-sm-2">投稿时间</th>
+                                                <th class="col-sm-1">审核状态</th>
+                                                <th class="col-sm-2">操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        {empty name="$eyou.field.data"}
+                                            <tr class="trSelected">
+                                                <td class="no-data" align="center" axis="col0" colspan="50">
+                                                    <i class="fa fa-exclamation-circle"></i>没有符合条件的记录
+                                                </td>
+                                            </tr>
+                                        {else/}
+                                            {eyou:volist name="$eyou.field.data" id="vo"}    
+                                            <tr>
+                                                <td class="col-sm-1 col-xs-1" >
+                                                    <input type="checkbox" name="aids[]" value="{$vo.aid}">
+                                                </td>
+
+                                                <td class="col-sm-5 col-xs-8 txt tl">
+                                                    <a  href="javascript:void(0);" data-arurl="{$vo.arcurl}" onclick="ArcUrl(this);">
+                                                        {$vo.title}
+                                                    </a>
+                                                </td>
+
+                                                <td class="col-sm-2 col-xs-3 ">
+                                                    {$vo.typename}
+                                                </td>
+
+                                                <td class="col-sm-1 td-state">
+                                                    {$vo.add_time|date='Y-m-d H:i:s',###}
+                                                </td>
+
+                                                <td class="col-sm-2 td-state">
+                                                    {$home_article_arcrank[$vo['arcrank']]|default=''}
+                                                </td>
+
+                                                <td class="col-sm-2 crud">
+                                                    <a href="javascript:void(0);" style="margin-right: 0;" data-editurl="{$vo.editurl}" onclick="EditData(this);">
+                                                        编辑
+                                                    </a>
+                                                    <a href="javascript:void(0);" style="margin-right: 0;" data-id='{$vo.aid}' data-url="{$eyou.field.delurl}" onclick="DelData(this);">
+                                                        删除
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr class="wap">
+                                                <td class="col-xs-1" ></td>
+                                                <td class="col-xs-8 td-state-m">
+                                                    {$home_article_arcrank[$vo['arcrank']]|default=''}
+                                                    <br/>
+                                                    {$vo.add_time|date='Y-m-d H:i:s',###}
+                                                </td>
+                                                <td class="col-xs-3 tc">
+                                                    <a href="javascript:void(0);" data-editurl="{$vo.editurl}" onclick="EditData(this);">
+                                                        编辑
+                                                    </a>
+                                                    <a href="javascript:void(0);" data-id='{$vo.aid}' data-url="{$eyou.field.delurl}" onclick="DelData(this);">
+                                                        删除
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            {/eyou:volist}
+                                        {/empty}
+                                            <tr class="del">
+                                                <td><input type="checkbox" onclick="javascript:$('input[name*=aids]').prop('checked',this.checked);"></td>
+                                                <td class="dels" >
+                                                    <a href="javascript:void(0);" onclick="BatchDelData(this, 'aids');" data-url="{$eyou.field.delurl}">
+                                                        <i class="glyphicon glyphicon-remove"></i>批量删除
+                                                    </a> 
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table> 
+                                </div>
+                            </div>
+                            <div style="text-align: center;">{$page}</div>
+                        </div>
+                    </div>
+                <!-- END -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    // 内容查看
+    function ArcUrl(obj) {
+        window.open($(obj).attr('data-arurl'));
+    }
+    // 编辑内容
+    function EditData(obj) {
+        window.location.href = $(obj).attr('data-editurl');
+    }
+    // 单个删除发布的内容
+    function DelData(obj) {
+        layer.confirm('是否删除该投稿？', {
+            title: false,
+            btn: ['是','否'] //按钮
+        }, function(){
+            layer_loading('正在处理');
+            // 确定
+            $.ajax({
+                type: "POST",
+                url: $(obj).attr('data-url'),
+                data: {del_id:$(obj).attr('data-id')},
+                dataType: 'json',
+                success: function (data) {
+                    layer.closeAll();
+                    if(data.code == 1){
+                        layer.msg(data.msg, {icon: 1});
+                        window.location.reload();
+                    }else{
+                        layer.alert(data.msg, {icon: 2, title:false});
+                    }
+                },
+                error:function(){
+                    layer.closeAll();
+                    layer.alert('网络失败，请刷新页面后重试', {icon: 2, title:false});
+                }
+            });
+        }, function(index){
+            layer.close(index);
+        });
+    }
+    // 批量删除发布的内容
+    function BatchDelData(obj, name) {
+        var a = [];
+        $('input[name^='+name+']').each(function(i,o){
+            if($(o).is(':checked')){
+                a.push($(o).val());
+            }
+        })
+        if(a.length == 0){
+            layer.alert('请至少选择一项', {icon: 2, title:false});
+            return;
+        }
+        // 删除按钮
+        layer.confirm('确认批量彻底删除？', {
+            title: false,
+            btn: ['确定', '取消'] //按钮
+        }, function () {
+            layer_loading('正在处理');
+            $.ajax({
+                type: "POST",
+                url: $(obj).attr('data-url'),
+                data: {del_id:a},
+                dataType: 'json',
+                success: function (data) {
+                    layer.closeAll();
+                    if(data.code == 1){
+                        layer.msg(data.msg, {icon: 1});
+                        window.location.reload();
+                    }else{
+                        layer.alert(data.msg, {icon: 2, title:false});
+                    }
+                },
+                error:function(){
+                    layer.closeAll();
+                    layer.alert('网络失败，请刷新页面后重试', {icon: 2, title:false});
+                }
+            });
+        }, function (index) {
+            layer.closeAll(index);
+        });
+    }
+</script>
+{eyou:include file="users/users_footer.htm" /}
+<!-- END -->

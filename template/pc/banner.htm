@@ -1,0 +1,18 @@
+<!--判断后台是否有输出图片，没有则显示默认图片开始-->
+<div class="bg_inner" 
+{eyou:assign name='toplitpic' value='$eyou.field.typeid|gettoptype=###,"litpic"'}
+{eyou:empty name='$toplitpic'}
+style="background: url({eyou:global name='web_templets_pc' /}/skin/img/cate_bg_{$eyou.field.typeid|gettoptype=###,'id'}.jpg) center center no-repeat;"
+{eyou:else /}
+style="background: url({$eyou.field.typeid|gettoptype=###,'litpic'}) center center no-repeat;"
+{/eyou:empty}
+ >
+ <!--判断后台是否有输出图片，没有则显示默认图片结束-->
+  <div class="banner_inner width" >
+    <div class="con">{$eyou.field.typename}<span>{$eyou.field.englist_name}</span>
+    </div>
+  </div>
+</div>
+
+
+

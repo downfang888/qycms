@@ -1,0 +1,114 @@
+{include file="public/layout" /}
+<body class="bodystyle" style="cursor: default; -moz-user-select: inherit; min-width:400px;">
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+<div class="page" style="min-width: 400px;">
+    <div class="flexigrid">
+        <div class="hDiv">
+            <div class="hDivBox">
+                <table cellspacing="0" cellpadding="0" style="width: 100%">
+                    <thead>
+                    <tr>
+                        <th class="sign w10" axis="col0">
+                            <div class="tc">&nbsp;</div>
+                        </th>
+                        <th abbr="article_title" axis="col3" class="w100">
+                            <div class="">模板类型</div>
+                        </th>
+                        <th abbr="article_title" axis="col3" class="w230">
+                            <div class="">签名名称</div>
+                        </th>
+                        <th abbr="article_title" axis="col3" class="w230">
+                            <div class="">模板CODE</div>
+                        </th>
+                        <th abbr="article_title" axis="col3" class="">
+                            <div class="">模板内容</div>
+                        </th>
+                        <th abbr="article_time" axis="col6" class="w50">
+                            <div class="tc">启用</div>
+                        </th>
+                        <th abbr="article_time" axis="col6" class="w100">
+                            <div class="tc">更新时间</div>
+                        </th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+        <div class="bDiv" style="height: auto;">
+            <div id="flexigrid" cellpadding="0" cellspacing="0" border="0">
+                <table style="width: 100%">
+                    <tbody>
+                    {empty name="list"}
+                        <tr>
+                            <td class="no-data" align="center" axis="col0" colspan="50">
+                                <i class="fa fa-exclamation-circle"></i>没有符合条件的记录
+                            </td>
+                        </tr>
+                    {else/}
+                        {foreach name="list" item="vo" key="k" }
+                        <tr>
+                            <td class="sign">
+                                <div class="w10 tc">&nbsp;</div>
+                            </td>
+                            <td class="">
+                                <div class="w100">
+                                    {$vo.tpl_title}
+                                </div>
+                            </td>
+                            <td class="">
+                                <div class="w230">
+                                    <input type="text" name="sms_sign" value="{$vo.sms_sign}" onchange="changeTableVal('sms_template', 'tpl_id', '{$vo.tpl_id}', 'sms_sign', this);" style="width: 80%;" title="阿里云短信签名名称，例：易优" placeholder="阿里云短信签名名称，例：易优">
+                                </div>
+                            </td>
+                            <td class="">
+                                <div class="w230">
+                                    <input type="text" name="sms_tpl_code" value="{$vo.sms_tpl_code}" onchange="changeTableVal('sms_template', 'tpl_id', '{$vo.tpl_id}', 'sms_tpl_code', this);" style="width: 80%;" title="阿里云短信模板CODE，例：SMS_123456789" placeholder="阿里云短信模板CODE，例：SMS_123456789">
+                                </div>
+                            </td>
+                            <td style="width: 100%">
+                                <div class="">
+                                    <input type="text" name="tpl_content" value="{$vo.tpl_content}" onchange="changeTableVal('sms_template', 'tpl_id', '{$vo.tpl_id}', 'tpl_content', this);" style="width: 94%;" title="阿里云短信模板内容，例：验证码为 ${content} ，请在30分钟内输入验证。" placeholder="阿里云短信模板内容，例：验证码为 ${content} ，请在30分钟内输入验证。">
+                                </div>
+                            </td>
+                            <td class="">
+                                <div class="w50 tc">
+                                    {eq name="$vo['is_open']" value='1'}
+                                        <span class="yes" onClick="changeTableVal('sms_template', 'tpl_id', '{$vo.tpl_id}', 'is_open', this);"><i class="fa fa-check-circle"></i>是</span>
+                                    {else /}
+                                        <span class="no" onClick="changeTableVal('sms_template', 'tpl_id', '{$vo.tpl_id}', 'is_open', this);"><i class="fa fa-ban"></i>否</span>
+                                    {/eq}
+                                </div>
+                            </td>
+                            <td class=""> 
+                                <div class="w100 tc">
+                                    {$vo.update_time|MyDate='Y-m-d',###}
+                                </div>
+                            </td>
+                        </tr>
+                        {/foreach}
+                    {/empty}
+                    </tbody>
+                </table>
+            </div>
+            <div class="iDiv" style="display: none;"></div>
+        </div>
+        <!--分页位置-->
+        {$pageStr}
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+        // 表格行点击选中切换
+        $('#flexigrid > table>tbody >tr').click(function(){
+            $(this).toggleClass('trSelected');
+        });
+
+        // 点击刷新数据
+        $('.fa-refresh').click(function(){
+            location.href = location.href;
+        });
+    });
+</script>
+
+{include file="public/footer" /}

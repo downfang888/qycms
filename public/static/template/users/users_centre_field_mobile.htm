@@ -1,0 +1,48 @@
+<div class="row">
+    <div class="col-xs-3">{$vo.title}</div>
+    <div class="col-xs-9">
+        {eyou:if condition="1 == $vo.is_required"}
+            <span class="redx">*</span>
+        {eyou:else/}
+            <span class="redx">&nbsp;</span>
+        {/eyou:if}
+        {$vo.dfvalue|default=''}
+        {eyou:eq name='is_mobile' value='1'}
+            <!-- 手机端 -->
+            {eyou:eq name='$users.is_mobile' value='1'}
+                <span class="err"><a href="JavaScript:void(0);" onclick="BindEmailMobile('更改手机');">（更改手机）</a></span>
+            {eyou:else/}
+                <span class="err"><a href="JavaScript:void(0);" onclick="BindEmailMobile('绑定手机');">（绑定手机）</a></span>
+            {/eyou:eq}
+        {eyou:else/}
+            <!-- PC端 -->
+            {eyou:eq name='$users.is_mobile' value='1'}
+                <span class="err"><a href="JavaScript:void(0);" onclick="get_{$vo.fieldArr}{$vo.name|default=''}_mobile_code('更改手机');">（更改手机）</a></span>
+            {eyou:else/}
+                <span class="err"><a href="JavaScript:void(0);" onclick="get_{$vo.fieldArr}{$vo.name|default=''}_mobile_code('绑定手机');">（绑定手机）</a></span>
+            {/eyou:eq}
+        {/eyou:eq}
+        <p class="notic">{$vo.remark|default=''}</p>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function get_{$vo.fieldArr}{$vo.name|default=''}_mobile_code(title) {
+        var url = '{$RootDir}/index.php?m=user&c=Users&a=bind_mobile';
+        if (url.indexOf('?') > -1) {
+            url += '&';
+        } else {
+            url += '?';
+        }
+        url += 'title=' + title;
+        //iframe窗
+        layer.open({
+            type: 2,
+            title: title,
+            shadeClose: false,
+            maxmin: false, //开启最大化最小化按钮
+            area: ['350px', '300px'],
+            content: url
+        });
+    }
+</script> 

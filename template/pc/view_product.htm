@@ -1,0 +1,178 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=0">
+<meta name="renderer" content="webkit">
+<meta http-equiv="Cache-Control" content="no-siteapp"/>
+<!--页面seo标题-->
+<title>{$eyou.field.seo_title}</title>
+<!--页面seo描述-->
+<meta name="description" content="{$eyou.field.seo_description}" />
+<!--页面seo关键词-->
+<meta name="keywords" content="{$eyou.field.seo_keywords}" />
+<!--网站地址栏图标-->
+<link href="{eyou:global name='web_cmspath' /}/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+{eyou:static file="skin/css/amazeui.min.css" /}
+{eyou:static file="skin/css/app.css" /}
+<!--[if lt IE 9]>
+<div class="notsupport">
+	<h1>:( 非常遗憾</h1>
+	<h2>您的浏览器版本太低，请升级您的浏览器</h2>
+</div>
+<![endif]--> 
+{eyou:static file="skin/js/jquery.min.js" /}
+{eyou:static file="skin/js/amazeui.min.js" /}
+{eyou:static file="skin/js/app.js" /} 
+</head>
+<body>
+<!--网站公用头部——开始-->
+{eyou:include file="header.htm" /}
+<!--网站公用头部——结束-->
+<!--网站公用自定义文件——开始-->
+{eyou:include file="banner.htm" /}
+<!--网站公用自定义文件——结束-->
+<div class="width inner_container">
+  <!--当前位置调用-->
+<ol class="am-breadcrumb">
+    <li><i class="am-icon-home"></i>{eyou:position style="" /}</li>  
+  </ol>
+  <div class="pro_show">
+    <div class="left">
+     <!--图集循环调用——开始-->
+     <!--调用一条数据-->
+      {eyou:volist name="$eyou.field.image_list" row='1'}
+      <div id="zoom_pic" class="zoom"><img src="{$field.image_url}" alt="{$eyou.field.title}" width="500" id="zoom"></div>
+      {/eyou:volist}
+     <!--图集循环调用——结束--> 
+      <div class="thumb_pic">
+        <ul>
+          <!--图集循环调用——开始-->
+          {eyou:volist name="$eyou.field.image_list"}
+          <li {eyou:eq name='$i' value='1'}class="hover"{/eyou:eq}><img src="{$field.image_url}" data-url="{$field.image_url}" alt="{$eyou.field.title}" width="60" height="60"></li>
+          {/eyou:volist}
+        </ul>
+        <!--图集循环调用——结束-->
+      </div>
+    </div>
+    <div class="right">
+      <!--产品标题-->
+      <h1>{$eyou.field.title}</h1>
+      <!--产品描述-->
+      <div class="intro"> {$eyou.field.seo_description}</div>
+      <hr>
+      <!--产品参数调用——开始-->
+      <ul class="attribute">
+       {eyou:attribute type='auto'}
+		<li><em>{$attr.name}：</em>{$attr.value} </li> 
+	   {/eyou:attribute}
+      </ul>
+      <!--产品参数调用——结束-->
+      <!--商城购买行为调用——开始-->
+     <!--购物车组件start--> 
+{eyou:sppurchase id='field' currentstyle='btn-danger'} 
+    <!-- 价格 标签开始 --> 
+    <div class="ey-price"><span>￥{$field.users_price}</span> </div> 
+    <!-- 价格 标签结束 --> 
+
+    <!-- 规格 标签开始 --> 
+    <div class="ey-spec"> 
+    {eyou:volist name="$field.ReturnData" id='field2'} 
+        <div class="row m-t-15"> 
+            <label class="form-control-label col-sm-7">{$field2.spec_name}</label> 
+            <div class="col-sm-10"> 
+            {eyou:volist name="$field2.spec_value" id='field3'} 
+                <a href="JavaScript:void(0);" {$field3.SpecData} class="btn btn-default btn-selected {$field3.SpecClass}">{$field3.spec_value}</a> 
+            {/eyou:volist} 
+            </div> 
+        </div> 
+    {/eyou:volist} 
+    </div> 
+    <!-- 规格 标签结束 --> 
+
+    <!-- 数量操作 标签开始 --> 
+    <div class="ey-number"> 
+        <label>数量</label> 
+        <div class="btn-input"> 
+            <button class="layui-btn" {$field.ReduceQuantity}>-</button> 
+            <input type="text" class="layui-input" {$field.UpdateQuantity}> 
+            <button class="layui-btn" {$field.IncreaseQuantity}>+</button> 
+        </div> 
+    </div> 
+    <!-- 数量操作 标签结束 --> 
+
+    <!-- 库存量 标签开始 --> 
+    <span {$field.stock_show}>库存量：{$field.stock_count} 件</span> 
+    <!-- 库存量 标签结束 --> 
+
+    <!-- 购买按钮 标签开始 --> 
+    <div class="ey-buyaction"> 
+        <a class="ey-joinin" href="JavaScript:void(0);" {$field.ShopAddCart}>加入购物车</a> 
+        <a class="ey-joinbuy" href="JavaScript:void(0);" {$field.BuyNow}>立即购买</a> 
+    </div> 
+    <!-- 购买按钮 标签结束 --> 
+
+    {$field.hidden} 
+{/eyou:sppurchase} 
+<!--购物车组件end-->
+      <!--商城购买行为调用——结束-->
+      <!--tag标签——开始-->
+      {eyou:notempty name='$eyou.field.tags'}
+      <div class="tags"><span class="am-icon-tags"></span> 标签：
+      {eyou:tag sort='now' getall='0' row='100' empty=''}
+		<a href="{$field.link}"  {$field.target}>{$field.tag}</a>
+	  {/eyou:tag}
+	  </div>
+	  {/eyou:notempty}
+	<!--tag标签——结束-->
+    </div>
+    <div class="clear"></div>
+  </div>
+  <div class="pro_intro">
+    <div class="left">
+      <div class="tabs">
+        <ul>
+          <li class="hover"><a>推荐产品</a></li>
+        </ul>
+        <div class="clear"></div>
+      </div>
+      <div class="plist">
+        <ul>
+         {eyou:arclist flag='c' orderby='now' titlelen='30' row='5' typeid='3'}
+          <li><a href="{$field.arcurl}" title="{$field.title}">
+            <div><img src="{$field.litpic}" alt="{$field.title}"></div>
+            <p>{$field.title}</p>
+            </a></li>
+         {/eyou:arclist} 
+        </ul>
+        <div class="clear"></div>
+      </div>
+    </div>
+    <div class="right">
+      <div class="tabs">
+        <ul>
+          <li class="hover"><a>产品介绍</a></li>
+        </ul>
+        <div class="clear"></div>
+      </div>
+      <div class="intro" >
+        <!--产品详情-->
+        {$eyou.field.content} 
+      </div>
+    </div>
+    <div class="clear"></div>
+  </div>
+</div>
+
+<!--网站公用底部——开始-->
+{eyou:include file="footer.htm" /}
+<!--网站公用底部——结束-->
+
+{eyou:static file="skin/js/jquery.zoombie.js" /}
+{eyou:static file="skin/css/toastr.css" /}
+{eyou:static file="skin/js/toastr.min.js" /}
+{eyou:static file="skin/js/jquery.validator.min.js" /} 
+
+</body>
+</html>
